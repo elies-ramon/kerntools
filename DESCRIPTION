@@ -1,0 +1,34 @@
+Package: kerntools
+Type: Package
+Title: Kernel Functions and Tools for Machine Learning Applications
+Version: 1.0.2
+Authors@R: person("Elies", "Ramon", email = "eramon@everlyrusher.com",
+    role = c("aut","cre","cph"),  comment = c(ORCID = "0000-0002-7953-8115"))
+Description: Kernel functions for diverse types of data (including, but not
+    restricted to: nonnegative and real vectors, real matrices, categorical
+    and ordinal variables, sets, strings), plus other utilities like kernel
+    similarity, kernel Principal Components Analysis (PCA) and features'
+    importance for Support Vector Machines (SVMs), which expand other 'R'
+    packages like 'kernlab'.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    dplyr,
+    ggplot2,
+    kernlab,
+    methods,
+    reshape2,
+    stats,
+    stringi
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+Language: en-US
