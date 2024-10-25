@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -67,17 +72,17 @@ column. (Defaults: TRUE).</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">5</span>,nrow<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">TSS</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span> <span class="co">#It can be checked that, after scaling, the sum of each row is equal to 1.</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]       [,3]        [,4]         [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  0.1792313  1.7862013 -0.4447070  -0.3588527 -0.161872910</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.9857786 -0.4544859  0.9839674  -0.2878203 -0.227439758</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  0.5751775  0.7584452 -0.5491987  -0.1692078  0.384783829</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.2274961  0.3439082  2.8405000  -1.3568577 -1.055046643</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  0.2667752  0.3638267  0.1160319   0.2544706 -0.001104359</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  0.3659695 -0.5283007  0.6352615   0.5236386  0.003430973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.9700962 -0.2188070  0.3686820   0.9110148 -1.030985981</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  0.1384819  0.3878949  0.3454320  -0.2364140  0.364605206</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 44.7377927 22.3769142 16.4918532 -76.7229752 -5.883584865</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  0.4804605 -1.7435773  2.2010283   1.1689823 -1.106893868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]       [,2]        [,3]        [,4]        [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  1.43806872 -0.9416164 -4.15353258  2.01655612  2.64052413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,]  0.46900078  0.1725816  0.45617564 -0.22870497  0.13094692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.41912320  0.7274180  0.11562066  0.96575711 -0.38967257</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -0.01235565  0.3247622  1.82900696 -1.36819684  0.22678336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  3.92027065 -1.6891528 -0.24846971 -0.28816059 -0.69448754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] -0.11017992  1.1816623 -0.77803531 -0.27450691  0.98105988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  1.51923631 -3.4823223  3.54626827  0.01138901 -0.59457125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  0.07098454  0.2455246  0.35394006 -0.05860890  0.38815973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.52937470 -0.1910700 -0.09529976  0.47688527  0.28010981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.23579134  0.1993244  0.66993700  0.28426276  0.08226719</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -89,7 +94,7 @@ column. (Defaults: TRUE).</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

@@ -1,9 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
+  Kernel-functions: Kernel-functions.html
+  Kernel-PCA-and-CIA: Kernel-PCA-and-CIA.html
   kerntools: kerntools.html
-last_built: 2024-09-11T22:09Z
+last_built: 2024-10-25T09:05Z
 urls:
   reference: https://elies-ramon.github.io/kerntools/reference
   article: https://elies-ramon.github.io/kerntools/articles

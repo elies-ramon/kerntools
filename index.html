@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,6 +40,13 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="articles/kerntools.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -149,7 +156,7 @@
 <div class="section level2">
 <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
 </h2>
-<p><code>kerntools</code> contains a categorical toy dataset called <code>showdata</code>.</p>
+<p><code>kerntools</code> contains a categorical toy dataset called <code>showdata</code> and a real-world count dataset called <code>soil</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
@@ -157,9 +164,10 @@
 <div class="section level3">
 <h3 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
 </h3>
-<p>To see detailed and step-by-step examples that illustrate the main cases of use of <code>kerntools</code>, please have a look to the vignette:</p>
+<p>To see detailed and step-by-step examples that illustrate the main cases of use of <code>kerntools</code>, please have a look to the vignettes:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="va">kerntools</span><span class="op">)</span></span></code></pre></div>
+<p>The basic vignette covers the typical <code>kerntools</code> workflow. Thorough documentation about the kernel functions implemented in this package is in the “Kernel functions” vignette. If you want instead to know more about kernel PCA and Coinertia analysis, you can refer to the corresponding vignette too.</p>
 </div>
 <div class="section level3">
 <h3 id="additional-help">Additional help<a class="anchor" aria-label="anchor" href="#additional-help"></a>
@@ -168,7 +176,7 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">kPCA</span><span class="op">)</span> <span class="co">## or the specific name of the function</span></span>
 <span><span class="op">?</span><span class="va">kPCA</span></span></code></pre></div>
-<p>The documentation of the example dataset is available in an analogous way, typing:</p>
+<p>The documentation of the example datasets is available in an analogous way, typing:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">showdata</span><span class="op">)</span></span>
 <span><span class="op">?</span><span class="va">showdata</span></span></code></pre></div>
@@ -228,7 +236,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>

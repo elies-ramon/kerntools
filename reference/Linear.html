@@ -9,7 +9,7 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -72,12 +77,12 @@ then the cosine-normalization.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">250</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">50</span>,nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">Linear</span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 56.3533820 -1.902548  6.634868  5.378836 -0.6782112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -1.9025476 52.316577  8.875222 -2.050903  5.1256125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  6.6348682  8.875222 57.110595 -8.071251  4.1534043</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  5.3788362 -2.050903 -8.071251 36.896757  2.7138702</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.6782112  5.125612  4.153404  2.713870 39.8589741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]        [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  59.511095 -1.2741200 -10.900658 -12.2677519  7.678785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  -1.274120 57.6852052  -2.967514   0.3842339  5.214374</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -10.900658 -2.9675144  50.612273  10.4069230 -1.919365</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -12.267752  0.3842339  10.406923  62.4838994  3.549917</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]   7.678785  5.2143740  -1.919365   3.5499166 46.013724</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -89,7 +94,7 @@ then the cosine-normalization.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

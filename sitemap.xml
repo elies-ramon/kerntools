@@ -1,6 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://elies-ramon.github.io/kerntools/404.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/LICENSE.html</loc></url>
+<url><loc>https://elies-ramon.github.io/kerntools/articles/Kernel-PCA-and-CIA.html</loc></url>
+<url><loc>https://elies-ramon.github.io/kerntools/articles/Kernel-functions.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/articles/index.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/articles/kerntools.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/authors.html</loc></url>
@@ -48,6 +50,7 @@
 <url><loc>https://elies-ramon.github.io/kerntools/reference/plotImp.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/reference/showdata.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/reference/simK.html</loc></url>
+<url><loc>https://elies-ramon.github.io/kerntools/reference/soil.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/reference/svm_imp.html</loc></url>
 <url><loc>https://elies-ramon.github.io/kerntools/reference/vonNeumann.html</loc></url>
 </urlset>

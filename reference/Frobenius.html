@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,11 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -80,10 +85,10 @@ matrices.</p>
 <span class="r-in"><span><span class="va">data3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">250000</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">500</span>,nrow<span class="op">=</span><span class="fl">500</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">Frobenius</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">data1</span>,<span class="va">data2</span>,<span class="va">data3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]        [,2]         [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 250006.28548   -345.2440     27.80452</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   -345.24405 249780.1340   -845.03543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]     27.80452   -845.0354 249859.33523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]        [,2]          [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  2.501567e+05   -198.3221  3.938937e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -1.983221e+02 249704.5579 -1.019380e+03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  3.938937e-01  -1019.3805  2.497023e+05</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -95,7 +100,7 @@ matrices.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

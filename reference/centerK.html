@@ -9,7 +9,7 @@ column is subtracted) in Feature Space."><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@ column is subtracted) in Feature Space."><meta property="og:image" content="http
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -63,12 +68,12 @@ column is subtracted) in Feature Space.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">250</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">50</span>,nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="Linear.html">Linear</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">centerK</span><span class="op">(</span><span class="va">K</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]      [,3]        [,4]       [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  38.8555517 -15.393520 -5.259264   0.4375577 -18.640325</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -15.3935202  48.151695 -9.891882 -17.1895187  -5.676774</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  -5.2592643  -9.891882 25.865268  -3.3674645  -7.346657</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]   0.4375577 -17.189519 -3.367465  38.0499034 -17.930478</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -18.6403249  -5.676774 -7.346657 -17.9304779  49.594234</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]       [,2]       [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  55.68802 -17.003217 -18.302657 -14.332653  -6.04949</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -17.00322  34.483623   2.404086  -6.543107 -13.34138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -18.30266   2.404086  32.183244  -6.129631 -10.15504</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -14.33265  -6.543107  -6.129631  37.751391 -10.74600</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  -6.04949 -13.341385 -10.155042 -10.746000  40.29192</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -80,7 +85,7 @@ column is subtracted) in Feature Space.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

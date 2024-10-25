@@ -9,7 +9,7 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -72,12 +77,12 @@ $$K_{Lapl}(x_i,x_j)=\exp(-\gamma \|x_i - x_j \|_1)$$</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">250</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">50</span>,nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">Laplace</span><span class="op">(</span><span class="va">dat</span>,g<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             1           2           3           4           5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.000000000 0.005222016 0.002596732 0.013192989 0.011030047</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.005222016 1.000000000 0.002682465 0.003775454 0.002542276</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.002596732 0.002682465 1.000000000 0.001086852 0.002064650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.013192989 0.003775454 0.001086852 1.000000000 0.006260778</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.011030047 0.002542276 0.002064650 0.006260778 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             1           2            3            4           5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.000000000 0.004568629 0.0021219998 0.0040553342 0.005260681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.004568629 1.000000000 0.0060090614 0.0035829360 0.007325958</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.002122000 0.006009061 1.0000000000 0.0009814867 0.003059022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.004055334 0.003582936 0.0009814867 1.0000000000 0.010675679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.005260681 0.007325958 0.0030590219 0.0106756795 1.000000000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -89,7 +94,7 @@ $$K_{Lapl}(x_i,x_j)=\exp(-\gamma \|x_i - x_j \|_1)$$</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

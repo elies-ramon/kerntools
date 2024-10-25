@@ -9,7 +9,7 @@ for ordinal variables, ranks or permutations."><meta property="og:image" content
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@ for ordinal variables, ranks or permutations."><meta property="og:image" content
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -92,10 +97,10 @@ PMLR, 2015. <a href="https://proceedings.mlr.press/v37/jiao15.html" class="exter
 <span class="r-in"><span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">survey1</span>,<span class="va">survey2</span>,<span class="va">survey3</span><span class="op">)</span> <span class="co"># Samples in columns</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">color_list</span></span></span>
 <span class="r-in"><span><span class="fu">Kendall</span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             survey1     survey2     survey3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> survey1  1.00000000 -1.00000000 -0.02222222</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> survey2 -1.00000000  1.00000000  0.02222222</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> survey3 -0.02222222  0.02222222  1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            survey1    survey2    survey3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> survey1  1.0000000 -1.0000000 -0.3333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> survey2 -1.0000000  1.0000000  0.3333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> survey3 -0.3333333  0.3333333  1.0000000</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The same 3 people are asked the number of times they ate 5 different kinds of</span></span></span>
 <span class="r-in"><span><span class="co"># food during the last month:</span></span></span>
@@ -114,10 +119,10 @@ PMLR, 2015. <a href="https://proceedings.mlr.press/v37/jiao15.html" class="exter
 <span class="r-in"><span><span class="va">dataset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">color</span>,food<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">food</span><span class="op">)</span><span class="op">)</span> <span class="co">#All samples in columns</span></span></span>
 <span class="r-in"><span><span class="fu">Kendall</span><span class="op">(</span><span class="va">dataset</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Composition: Mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.0000000 -0.4000000  0.1888889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.4000000  1.0000000 -0.1888889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.1888889 -0.1888889  1.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]        [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.00000000 -0.40000000  0.03333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.40000000  1.00000000 -0.03333333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.03333333 -0.03333333  1.00000000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -129,7 +134,7 @@ PMLR, 2015. <a href="https://proceedings.mlr.press/v37/jiao15.html" class="exter
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

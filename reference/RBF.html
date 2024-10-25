@@ -9,7 +9,7 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,11 @@ matrix or data.frame with dimension NxD."><meta property="og:image" content="htt
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -75,11 +80,11 @@ $$K_{RBF}(x_i,x_j)=\exp(-\gamma \|x_i - x_j \|^2)$$</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">250</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">50</span>,nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">RBF</span><span class="op">(</span><span class="va">dat</span>,g<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]         [,2]         [,3]         [,4]         [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.000000e+00 6.290053e-05 5.819938e-04 7.689408e-04 1.082033e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 6.290053e-05 1.000000e+00 1.523218e-05 1.273325e-05 2.561708e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 5.819938e-04 1.523218e-05 1.000000e+00 6.333544e-05 3.105290e-04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 7.689408e-04 1.273325e-05 6.333544e-05 1.000000e+00 1.805479e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 1.082033e-03 2.561708e-05 3.105290e-04 1.805479e-05 1.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.0000000000 3.117137e-04 1.355691e-03 0.0014509756 0.0001324322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0003117137 1.000000e+00 7.520068e-05 0.0001258129 0.0001864737</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0013556906 7.520068e-05 1.000000e+00 0.0006218804 0.0004282548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0014509756 1.258129e-04 6.218804e-04 1.0000000000 0.0003363011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0001324322 1.864737e-04 4.282548e-04 0.0003363011 1.0000000000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -91,7 +96,7 @@ $$K_{RBF}(x_i,x_j)=\exp(-\gamma \|x_i - x_j \|^2)$$</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

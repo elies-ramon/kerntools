@@ -39,7 +39,7 @@ A range of values, computed with the function
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,11 @@ A range of values, computed with the function
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -109,20 +114,20 @@ A range of values, computed with the function
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $scale_criterion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02303655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01741803</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $quantiles_criterion</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         90%         50%         10% </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.006738926 0.010638543 0.026341814 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.003503285 0.008025082 0.021982630 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="RBF.html">RBF</a></span><span class="op">(</span><span class="va">data</span>, g <span class="op">=</span> <span class="va">gamma</span><span class="op">$</span><span class="va">scale_criterion</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">K</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]        [,4]        [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.00000000 0.1038933 0.1121367 0.031411920 0.019236010</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.10389328 1.0000000 0.2662183 0.150640220 0.292283136</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.11213673 0.2662183 1.0000000 0.280657307 0.111923228</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.03141192 0.1506402 0.2806573 1.000000000 0.009912131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.01923601 0.2922831 0.1119232 0.009912131 1.000000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]       [,2]       [,3]       [,4]      [,5]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.00000000 0.14223781 0.07334868 0.03569634 0.5918622</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.14223781 1.00000000 0.15892850 0.02099132 0.1941606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.07334868 0.15892850 1.00000000 0.56999694 0.2103567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.03569634 0.02099132 0.56999694 1.00000000 0.1326039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.59186218 0.19416062 0.21035672 0.13260392 1.0000000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -134,7 +139,7 @@ A range of values, computed with the function
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

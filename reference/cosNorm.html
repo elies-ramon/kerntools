@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,11 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/kerntools.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Kernel-functions.html">Kernel functions</a></li>
+    <li><a class="dropdown-item" href="../articles/Kernel-PCA-and-CIA.html">Kernel PCA and Coinertia</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -68,11 +73,11 @@ Springer Berlin Heidelberg. <a href="https://hal.science/hal-01504523/document" 
 <span class="r-in"><span><span class="va">K</span> <span class="op">&lt;-</span> <span class="fu"><a href="Linear.html">Linear</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">cosNorm</span><span class="op">(</span><span class="va">K</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]        [,2]        [,3]        [,4]        [,5]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.00000000 -0.09393048 -0.21186492 -0.04942704 -0.09977431</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.09393048  1.00000000  0.07301721 -0.13194280 -0.13218538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -0.21186492  0.07301721  1.00000000 -0.01952813  0.28006966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -0.04942704 -0.13194280 -0.01952813  1.00000000 -0.06079162</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.09977431 -0.13218538  0.28006966 -0.06079162  1.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  1.00000000 -0.18576970  0.14211804  0.04982009  0.17898714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.18576970  1.00000000  0.09582528 -0.20726749 -0.04930542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.14211804  0.09582528  1.00000000 -0.17213295 -0.05003129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.04982009 -0.20726749 -0.17213295  1.00000000  0.21781431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.17898714 -0.04930542 -0.05003129  0.21781431  1.00000000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -84,7 +89,7 @@ Springer Berlin Heidelberg. <a href="https://hal.science/hal-01504523/document" 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
