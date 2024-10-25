@@ -1,4 +1,4 @@
-# kerntools 1.0.3
+# kerntools 1.1.0
 
 * New vignettes explaining in depth kernel PCA and the kernel functions implemented in this package.
 
