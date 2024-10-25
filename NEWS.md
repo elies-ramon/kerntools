@@ -1,7 +1,7 @@
 # kerntools 1.0.3
 
-* New vignettes explaining kernel PCA and the kernel functions implemented in 
-this package in depth
+* New vignettes explaining in depth kernel PCA and the kernel functions implemented in this package.
+
 * New example dataset ('soil') that contains bacterial counts.
 
 # kerntools 1.0.2

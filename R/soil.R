@@ -12,5 +12,4 @@
 #' assessment of soil pH as a predictor of soil bacterial community structure at
 #' the continental scale. Appl Environ Microbiol. 2009 Aug;75(15):5111-20.
 #' doi: 10.1128/AEM.00335-09.
-#' @source \url{https://qiita.ucsd.edu/study/description/103}
 "soil"

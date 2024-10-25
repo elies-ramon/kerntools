@@ -3,7 +3,7 @@ title: "Kernel functions"
 author: "Elies Ramon"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Kernel_functions}
+  %\VignetteIndexEntry{Kernel functions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

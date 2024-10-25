@@ -152,7 +152,7 @@ of use of `kerntools`, please have a look to the vignettes:
 browseVignettes(kerntools)
 ```
 
-The basic vignette covers the typical `kerntools` workflow. The
+The basic vignette covers the typical `kerntools` workflow. Thorough
 documentation about the kernel functions implemented in this package is
 in the “Kernel functions” vignette. If you want instead to know more
 about kernel PCA and Coinertia analysis, you can refer to the
@@ -168,7 +168,7 @@ help(kPCA) ## or the specific name of the function
 ?kPCA
 ```
 
-The documentation of the example dataset is available in an analogous
+The documentation of the example datasets is available in an analogous
 way, typing:
 
 ``` r

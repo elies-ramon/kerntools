@@ -1,9 +1,9 @@
 ---
-title: "PCA and Coinertia"
+title: "Kernel PCA and Coinertia"
 author: "Elies Ramon"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Kernel_PCA}
+  %\VignetteIndexEntry{Kernel PCA and Coinertia}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

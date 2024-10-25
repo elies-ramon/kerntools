@@ -12,9 +12,6 @@ A list containing the following elements:
   \item{taxonomy}{Taxonomic information}
 }
 }
-\source{
-\url{https://qiita.ucsd.edu/study/description/103}
-}
 \usage{
 soil
 }
