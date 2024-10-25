@@ -138,18 +138,25 @@ multi-class classification are implemented:
 
 ## Example data
 
-`kerntools` contains a categorical toy dataset called `showdata`.
+`kerntools` contains a categorical toy dataset called `showdata` and a
+real-world count dataset called `soil`.
 
 ## Documentation
 
 ### Vignette
 
 To see detailed and step-by-step examples that illustrate the main cases
-of use of `kerntools`, please have a look to the vignette:
+of use of `kerntools`, please have a look to the vignettes:
 
 ``` r
 browseVignettes(kerntools)
 ```
+
+The basic vignette covers the typical `kerntools` workflow. The
+documentation about the kernel functions implemented in this package is
+in the “Kernel functions” vignette. If you want instead to know more
+about kernel PCA and Coinertia analysis, you can refer to the
+corresponding vignette too.
 
 ### Additional help
 

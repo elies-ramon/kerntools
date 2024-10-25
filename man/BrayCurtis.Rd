@@ -31,7 +31,7 @@ For more info about these measures, please check Details in
  `1-vegan::vegdist(data,method="jaccard")`.
 }
 \examples{
-data <- matrix(rpois(5000,lambda=3),ncol=100,nrow=50)
+data <- soil$abund
 Kruz <- Ruzicka(data)
 Kbray <- BrayCurtis(data)
 Kruz[1:5,1:5]

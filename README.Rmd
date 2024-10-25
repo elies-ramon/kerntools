@@ -104,18 +104,20 @@ Finally, the following performance measures for regression, binary and multi-cla
 
 ## Example data
 
-`kerntools` contains a categorical toy dataset called `showdata`.
+`kerntools` contains a categorical toy dataset called `showdata` and a real-world count dataset called `soil`.
 
 
 ## Documentation
 
 ### Vignette
 
-To see detailed and step-by-step examples that illustrate the main cases of use of `kerntools`, please have a look to the vignette:
+To see detailed and step-by-step examples that illustrate the main cases of use of `kerntools`, please have a look to the vignettes:
 
 ```{r,eval=FALSE}
 browseVignettes(kerntools)
 ```
+
+The basic vignette covers the typical `kerntools` workflow. Thorough documentation about the kernel functions implemented in this package is in the "Kernel functions" vignette. If you want instead to know more about kernel PCA and Coinertia analysis, you can refer to the corresponding vignette too.
 
 ### Additional help
 
@@ -126,7 +128,7 @@ help(kPCA) ## or the specific name of the function
 ?kPCA
 ```
 
-The documentation of the example dataset is available in an analogous way, typing:
+The documentation of the example datasets is available in an analogous way, typing:
 
 ```{r,eval=FALSE}
 help(showdata)

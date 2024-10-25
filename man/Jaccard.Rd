@@ -5,12 +5,12 @@
 \alias{Intersect}
 \title{Kernels for sets}
 \usage{
-Jaccard(X, elements = LETTERS, comp = "mean", coeff = NULL)
+Jaccard(X, elements = LETTERS, comp = "sum", coeff = NULL)
 
 Intersect(
   X,
   elements = LETTERS,
-  comp = "mean",
+  comp = "sum",
   coeff = NULL,
   feat_space = FALSE
 )

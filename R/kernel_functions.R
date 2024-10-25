@@ -178,7 +178,7 @@ Frobenius <- function(DATA,cos.norm=FALSE, feat_space=FALSE) {
 #'
 #' @export
 #' @examples
-#' data <- matrix(rpois(5000,lambda=3),ncol=100,nrow=50)
+#' data <- soil$abund
 #' Kruz <- Ruzicka(data)
 #' Kbray <- BrayCurtis(data)
 #' Kruz[1:5,1:5]
@@ -312,13 +312,13 @@ Dirac <- function(X, comp="mean", coeff=NULL,feat_space=FALSE) {
 #' coeffs <- c(0.1,0.15,0.15,0.4,0.20)
 #' Jaccard(setsdata,elements=LETTERS,comp="weighted",coeff=coeffs)
 
-Jaccard <- function(X, elements=LETTERS, comp="mean", coeff=NULL) {
+Jaccard <- function(X, elements=LETTERS, comp="sum", coeff=NULL) {
   return(catkerns(X=X, elements=elements, kernel="jaccard", comp=comp, coeff=coeff,feat_space=FALSE))
 }
 
 #' @rdname Jaccard
 #' @export
-Intersect <- function(X, elements=LETTERS,  comp="mean", coeff=NULL,feat_space=FALSE) {
+Intersect <- function(X, elements=LETTERS,  comp="sum", coeff=NULL,feat_space=FALSE) {
   return(catkerns(X=X, elements=elements, kernel="intersect", comp=comp, coeff=coeff,feat_space=feat_space))
 }
 

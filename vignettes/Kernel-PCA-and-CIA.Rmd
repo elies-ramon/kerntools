@@ -1,0 +1,290 @@
+---
+title: "PCA and Coinertia"
+author: "Elies Ramon"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Kernel_PCA}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Purpose of this document
+
+The purpose of this document is to answer, in a few words, the following questions:
+
+- What is Principal Component Analysis (PCA)?
+- How to compute it using kernels?
+- Why Coinertia analysis is related to kernel alignment (similarity)?
+- How `kerntools` implementation of these two methods compares to other R implementations?
+
+The goal is not to dive deeply in mathematical demonstrations, which can be found elsewhere. Instead, this document will explain the basics (using matrix notation) so the user can understand why `kerntools` takes a different approach from other R packages.
+
+## Introduction
+
+Dimensionality reduction consist in projecting a cloud of points/samples on a new basis of lower dimensionality. It is a central task in pattern analysis and the resulting projection has a lot of potential uses afterwards, from displaying it on a two or three-dimensional plot to studying its properties, to name a few. There are many methods that perform dimensionality reduction, but most of them are based on **eigendecomposition**: that is, they work with the eigenvectors and eigenvalues of the original dataset. Typically, the main difference among these methods is how they use this information; or in other words, its criterion/criteria for finding the projection basis. For example, **PCA** finds a new basis so the first axes maximize the **variance** (variability) of the projection. The projection preserves the total variance of the original dataset (also called **inertia**), and the new variables (Principal Components or **PCs**) are in decreasing order according to the fraction of inertia they retain. There also exist dimensionality reduction methods that work with two datasets. Coinertia Analysis (**CIA**) is an example of this group, and it has as a main criterion to maximize the covariance between both datasets.
+
+### Matrix decomposition
+
+Matrix decomposition (also known as matrix factorization) consist in expressing a matrix **A** as the product of two or more matrices.
+
+### Eigendecomposition
+
+A non-zero vector, **v**, with dimension (length) *N*, is an **eigenvector** of **A**, a matrix, if:
+
+$$\mathbf{Av} = \lambda \mathbf{v}$$
+That is: the eigenvectors of **A** are the set of vectors that have their direction left unchanged under **A** (which works here as a linear map). Instead, **A** only scales them by constant factors, $\lambda$, called the **eigenvalues**. Each eigenvector is associated to an eigenvalue, and both can be found solving the characteristic equation. From now on, we will call the matrix of eigenvectors **V** (which has eigenvectors placed at the columns), and **D** the diagonal matrix that contains their corresponding eigenvalues. If all the eigenvalues in **D** are nonnegative (positive or zero), we say that **A** is a positive semi-definite (PSD) matrix. If there are strictly positive, we will say that **A** is positive definite.
+
+Not all matrices can be eigendecomposed; only those that are diagonalizable. That implies that, at last, they should be squared. Supposing **A** is squared and diagonalizable, we can write its eigendecomposition as:
+
+$$\mathbf{A}=\mathbf{VDV^{-1}}$$
+When **A** is real (it contains only real values), squared and symmetric, it has "extra" properties regarding eigendecomposition. In that case, the eigendecomposition has the form:
+
+$$\mathbf{A}=\mathbf{VDV^T}$$
+**V** here is orthonormal (that is: is $\mathbf{V}=\mathbf{V^T}=\mathbf{V^{-1}}$). Thus, the eigenvectors of **A** form an orthonormal basis: they are linearly independent, orthogonal, and have modulus 1.
+
+Finally, a well-known property of eigendecomposition is that the non-zero eigenvalues of the product of two matrices **AB** are identical to those of **BA**, although the eigenvectors of these two matrices may be different.
+
+
+### Singular Value Decomposition (SVD)
+
+**SVD** is another matrix factorization method. It's more general than eigendecomposition, because it can be applied to every matrix, even if it is not squared. The SVD of a non-squared matrix **M** with dimension *NxD* is:
+
+$$\mathbf{M}=\mathbf{U \Lambda V^T}$$
+where: $\mathbf{\Lambda}$ (dimension *NxD*) is the quasi-diagonal matrix containing the singular values $s_i$ of **M**. They are always real and nonnegative. **U** (dimension *NxN*) and **V** (dimension *DxD*) are orthogonal matrices, and thus each one of them forms a basis. 
+
+We can relate eigendecomposition and SVD. If **M** is real:
+
+$$\mathbf{M^TM}=\mathbf{V \Lambda^T U^T}\mathbf{U \Lambda V^T}=\mathbf{V (\Lambda^T \Lambda ) V^T}$$
+$$\mathbf{MM^T}=\mathbf{U \Lambda V^T}\mathbf{V \Lambda^T U^T}=\mathbf{U (\Lambda \Lambda^T) U^T}$$
+Both $\mathbf{MM^T}$ and $\mathbf{M^TM}$ are always squared and symmetric. Thus: 
+
+- The columns of **V** (right singular vectors) are also the eigenvectors of $\mathbf{M^TM}$.
+
+- The columns of **U** (left singular vectors) are also the eigenvectors of $\mathbf{MM^T}$. 
+
+- Taking the squared root of the eigenvalues gives us the singular values: $\mathbf{V D V^T} =\mathbf{V \Lambda^2 V^T}$. This root always give us real numbers because both $\mathbf{MM^T}$ and $\mathbf{M^TM}$ are PSD on top of real, squared and symmetric matrices. Also, as explained before, both have the same set of non-zero eigenvalues.
+
+
+## Principal Components Analysis (PCA)
+
+Our starting point is a dataset with dimension *N×D* (*N* samples and *D* variables). First, we center it; that is, we substract the mean value per column, so the mean of each variable is now 0. We will call this centered dataset **X**. The covariance matrix of **X** is:
+
+$$\mathbf{C} = \frac{1}{N-1}\mathbf{X^TX}$$
+(By the way, un-centered PCA is not entirely unheard of, but things become a bit muddled if the dataset is not centered, because then the variability criterion of the PCA is not the variance but the distance to the origin (0)).
+
+**C** is squared (dimension: *DxD*), symmetric and PSD. When we compute the eigendecomposition of **C**, we obtain:
+
+$$\mathbf{C}=\mathbf{VDV^T}$$
+The diagonal matrix **D** contains the eigenvalues $\lambda_i$ in decreasing order. The columns of **V** are the eigenvectors, which generate a orthogonal basis (remember that **C** is squared, PSD, and contains only real numbers). The eigenvectors are the Principal Axes of the PCA projection. Each on of them is associated to a specific eigenvalue, which indicates how much variance in **X** is captured by its paired eigenvector.The Principal Components (PC) are the result of projecting our original data/variables onto this new basis, and we can think of them as new variables created from a linear combination of the original variables. This projection (that is: the original samples' coordinates in the new axes), which we will call **X'**, is given by:
+
+$$\mathbf{X'}=\mathbf{XV}$$
+and it has the same dimension *NxD* of the original dataset **X**. Usually, PCA is used as a dimensionality reduction method, especially for visualization purposes. In that case, only the first PCs are relevant. An example: when drawing a two-dimensional plot, we only need the first two columns of **V**, which correspond to the two PCs with higher variance. Then: $\mathbf{X}'_{N\times2}=\mathbf{X}_{N\times D}\mathbf{V}_{D\times2}$
+
+In any case, the projection of a new sample **x** (a row vector of length *D*) is trivial, as it can be computed anytime as:
+
+$$\mathbf{x'}=\mathbf{xV}$$
+An alternative way of computing a PCA relies on the SVD of **X**, the centered dataset. In this case, we obtain:
+
+$$\mathbf{X}=\mathbf{U \Lambda V^T}$$
+This **V** is, again, the matrix with the eigenvectors in the columns, while $\Lambda$ is a diagonal matrix with the singular values $s_i$, which are closely related to the eigenvalues: $\lambda_i = s_i^2 /(N-1)$. Furthermore, the PCs can be obtained as $\mathbf{U \Lambda}$. This is because:
+
+$$\mathbf{X'}=\mathbf{XV}=\mathbf{U \Lambda V^TV}=\mathbf{U \Lambda}$$
+Strictly speaking, **U** has dimension *N×N* and **V** has dimension *DxD*. However, if *N > D*, the last *N − D*
+columns of **U** are irrelevant and the corresponding entries in $\Lambda$ are 0. Conversely, if *N < D*, the last *D − N* columns of **V** are irrelevant and their corresponding singular values are, again, 0.
+
+PCA projections (**X'**) preserve the total variance (inertia) of the original dataset **X**, only that this variance is "allocated" differently among the PCs than it was in the original variables. The inertia can be computed easily: it's the sum of variances of all variables, and thus it can be obtained either from **C** or from **D**
+
+$$inertia(\mathbf{X}) = tr(\mathbf{C}) = tr(\mathbf{D}) $$
+(Here $tr()$ denotes the trace of a matrix, defined as the sum of the elements on its main diagonal).
+
+We can find the percentage of the total variance (or in other words: the amount of inertia) retained by each PC doing $\frac{\lambda_i}{tr(\mathbf{D}))}·100$.
+
+
+## Kernel PCA
+
+(Note: if you need more information about kernel functions, please take a look at the corresponding vignette)
+
+### Linear kernel
+
+Now, we can demonstrate that a kernel PCA using the linear kernel is the same than the old plain PCA. As before, we work with the centered dataset **X**; but this time we will not focus on its covariance matrix **C**, but on its Gram matrix. The Gram matrix of a set of vectors (in our case, each one of the samples placed on the rows of **X**) is the matrix of their inner products: the linear kernel matrix. We should call this matrix **G**:
+
+$$\mathbf{G} =  \mathbf{XX^T}$$
+**G** has dimension *N×N*, is squared, symmetric and PSD. As was the case of **C**, the eigendecomposition and the SVD of **G** have equivalent results. Thus, we may write the eigendecomposition of **G** as:
+
+$$\mathbf{G}=\mathbf{U \Lambda^2 U}$$
+(Remember that eigenvalues and singular values are related: $\lambda_i = s_i^2$.)
+
+Finding the PCs in this case is straightforward: $\mathbf{X'}=\mathbf{U \Lambda}$, as stated before. Moreover, if we want a perfect match with the eigenvalues of **C**, we should scale them by *N - 1*. Most of the time this scaling is irrelevant because it does not change the projection *per se*, only the range of values of the PCs. An exception for this rule arises when computing the inertia. In this case we are dealing with a sum of variances, so: 
+
+$$inertia(\mathbf{X}) = tr(\mathbf{C}) = \frac{tr(\mathbf{G})}{N-1} $$
+We can compute the inertia from **G** because this matrix is closely related to **C**: both have the same set of eigenvalues (once we scale by *N - 1*). This is very convenient, since the trace of a matrix can be computed as the sum of all its eigenvalues. However, there is a drawback in using **G**: we cannot obtain **V** (the projection axes). Luckily, this doesn't hinder our ability to project new samples as we did in old plain PCA. A new sample ($\mathbf{x}$) will be compared against all samples in **X** using the kernel function, which (as we are working with the linear kernel right now) is the dot product. If we call the resulting vector **k** (row vector of length *N*):
+
+$$ \mathbf{k} = \mathbf{xX^T}$$
+
+we can project this new sample with:
+
+$$\mathbf{x'}=\mathbf{kU \Lambda^{-1}}$$
+
+### Rest of kernels
+When using a kernel function different from the linear kernel, we are implicitly mapping the original dataset to another space, the so-called **feature space**. That is:
+
+$$x → φ(x)$$
+$$\mathbf{K_{ij}} = k(x_i , x_j ) = <φ(x_i),φ(x_j)>$$
+**K** (dimension: *NxN*), the kernel matrix, contains the results of this pairwise evaluation over all samples (**G** is a particular case when using the linear kernel). The kernel PCA is obtained doing the SVD or the eigendecomposition of **K**, which results in: 
+$$\mathbf{K}=\mathbf{U \Lambda^2 U}$$
+Now we can talk properly of "kernel PCA". Under the hood, it's a PCA that takes place in feature space. The result we will see ($\mathbf{X'}=\mathbf{U \Lambda}$) is this PCA projected back to the original (input) space. Remember when we said that **V** cannot be computed from **K**? This is because the Principal Axes now live in feature space. In fact, we already faced this very problem with the linear kernel. However, as the linear kernel is the only kernel whose feature space is the input space, relying on the SVD of **X** (or on the eigendecomposition of **C**) to compute **V** was an option, while with the rest of kernels this is not. In principle, we could perform a SVD of the data mapped onto the feature space, but the problem is that, for a *lot* of kernels, computing $φ(x)$ is not trivial.
+
+Another closely-related question is variable centering. In kernel PCA, the PCA itself is performed in feature space, and so the variables should be centered there. There are good news though: 1) centering **K** is equivalent to centering the data mapped onto the feature space, and 2) the former operation is way easier than the later. In fact, a kernel matrix is centered doing:
+
+$$\mathbf{\tilde{K}} = \mathbf{HKH}$$
+where $\mathbf{H} = \mathbf{I} - \frac{1}{N}\mathbf{11^T}$, **I** is the identity matrix, and $\mathbf{1}$ the matrix of all 1s. 
+
+The projection of new samples is done as stated in [Linear kernel]. The only difference is that now **k** is obtained with a kernel different to the linear kernel.
+
+### Advantages of kernel PCA
+
+In the last subsection we have seen a drawback of using kernel PCA: we cannot compute **V** explicitly, and so we don't know the contributions of the original variables to the PCs... that is, unless we perform some extra step, like computing a PCA on the side. Then, why bother doing kernel PCA at all? At least two reasons come to mind:
+
+- The old plain PCA requires real-valued datasets, while kernels allow us to work with virtually any kind of data. If we use the right kernel, the kernel PCA will obtain projections and plots of *any* set of samples we are interested in, *independently* of the type of data: categorical, ordinal, strings, graphs, ...
+
+- Old plain PCA projects data in a linear way (remember: PCs are a linear combinations of the original variables), but kernel PCA is not restricted to do so. Thus, it's a useful technique even when working with real data: if we choose a non-linear kernel, the resulting projection will also be non-linear.
+
+ 
+### `kerntools` implementation
+
+`kerntools` is a kernel-focused package, and for that reason the PCAs are computed from the SVD of a kernel matrix. Between SVD and eigendecomposition, this package prefers the former approach for its higher numerical stability. PCA has several R implementations already, of which `stats::prcomp()` and `stats::princomp()` are the most used and well-known. The former computes the PCA from the SVD of the original dataset, while the latter relies on eigendecomposition. Now, we may compare the results of these three packages:
+
+```{r setup, include = FALSE}
+library(kerntools)
+```
+
+```{r}
+iris_feat <- iris[,c( "Sepal.Length","Sepal.Width","Petal.Length","Petal.Width")]
+
+# The variables are centered but not standardized:
+iris_prcomp <- prcomp(iris_feat,center = TRUE,scale. = FALSE)
+iris_princomp <- princomp(iris_feat, cor = FALSE)
+iris_kerntools <- kPCA(Linear(iris_feat),center=TRUE)
+
+head(iris_prcomp$x)
+head(iris_princomp$scores)
+head(iris_kerntools[,1:4])
+```
+
+Feature centering in `stats::prcomp(..., center = TRUE)` and `stats::princomp(..., cor = FALSE)` is done substracting the mean of each feature of the dataset, while `kPCA(..., center=TRUE)` performs the kernel matrix centering explained in [Rest of kernels]. In any case, it can be seen than the results are identical. Sometimes, there are PCs with inverted signs. This might be a bit annoying, as the projection plot will also be inverted, but beyond that, it bears no special relevance for the PCA. Signs are arbitrary and depend on the implementation of the underlying algorithm and, even, the specific build of R. 
+
+Thus, the main difference between the `kerntools` and the other two approaches is that **V**, the matrix of Principal Axes, is not computed by `kPCA()`. This is a pity because **V** relates the original variables to the Principal Axes, telling us how much the former contribute to the latter. This information is straightforward in `prcomp()` and `princomp()` under the name "rotation" or "loadings":
+
+```{r}
+iris_prcomp$rotation
+iris_princomp$loadings
+```
+
+To do the same with `kerntools`, we can use the `kPCA_imp()` function. As the contributions cannot be obtained from the kernel matrix, this function computes the SVD of the dataset (as does `prcomp()`):
+
+```{r}
+iris_pcs <- kPCA_imp(iris_feat,center = TRUE, projected = iris_kerntools)
+t(iris_pcs$loadings)
+```
+
+(The parameter `projected` can be NULL. However, if the user gives the PCA projection (generated with `kPCA()` wherever possible), this may save some computation time.)
+
+The PCs' sign inversions will also reappear here. Furthermore, it's important to highlight that, when *N < D*, `kPCA()` throws an error and says that contributions cannot be computed. This is because the problem is *underdetermined*. In fact, `stats::princomp()` will also throw an error, and in the case of `stats::prcomp()`, the last *D - N* rows in the "loadings" matrix will be all 0.
+
+In this example we've just seen, the kernel used was the linear kernel. However, remember that 1) in all the other kernels the PCA is computed in feature space, and 2) depending of the kernel, this may be difficult to compute explicitly. Even then, `kPCA_imp()` can be used to obtain the contributions of each feature in this feature space... if the user has this information. As it happens, there are kernels functions implemented in `kerntools` that return the data mapped onto feature space. This is the case, for instance, of the Dirac kernel for categorical variables:
+
+```{r}
+colnames(showdata)
+categdata <- Dirac(showdata,feat_space = TRUE)
+K <- categdata$K
+FS <- categdata$feat_space
+```
+
+Here we have `K`, the Dirac kernel matrix, and `FS`, the data mapped onto the feature space. The kernel PCA is generated from `K`, while `FS` allows us to compute the contributions:
+
+```{r}
+dirac_kpca <- kPCA(K, center = TRUE)
+dirac_pcs <- kPCA_imp(FS,center = TRUE, projected = dirac_kpca)
+head(t(dirac_pcs$loadings[1:3,]) )
+```
+
+etc. (For the sake of clarity, only the 3 first PCs are shown here).
+
+
+## Coinertia analysis using kernels
+
+### Introduction
+
+The Coinertia analysis (**CIA**) is a method that identifies trends or co-relationships between datasets. These datasets are related somehow: for instance, the same individuals, in the same order, are found in all datasets.  The **coinertia** between 2 datasets **X** and **B** with the same number of rows and (thus, **X** has dimension $N$ x $D_1$ and **B** $N$ x $D_2$) is the squared sum of covariances between all pairwise combinations of variables from datasets **X** and **B**:
+
+$$coinertia(\mathbf{X},\mathbf{B}) = \sum_{i=1}^{D_1}\sum_{j=1}^{D_2} {\mathbf{X_i^TB_j}}^2 $$
+(Of course, to work with true covariances, both datasets should be centered in advance).
+
+The projection obtained with CIA is conceptually similar to perform a PCA of the table of cross-covariance between the two datasets. Thus, we can see that these two methods are related, although they have different priorities: in PCA we maximize the variance, while CIA prioritizes the squared covariance. In other words: the first two co-inertia axes, $a_1$ and $b_1$, retain the maximum covariance when projecting **X** onto $a_1$ and and **B** onto $b_1$. This is useful to find co-structures in the two datasets. Furthermore, we can define the **RV coefficient**, which computes the amount of similarity between **X** and **B**:
+
+$$RV = \frac{coinertia(\mathbf{X,B})}{\sqrt{coinertia(\mathbf{X,X})}\sqrt{coinertia(\mathbf{B,B})}}$$
+
+This is a correlation coefficient that ranges between 0 and 1. The higher the RV, the higher the correlation between **X** and **B**.
+
+Typically, CIA is performed over two PCA projections **X'** and **B'** (sometimes, other dimensionality reduction methods are used, like Multidimensional Scaling). In that case, the variables that are compared are not the original variables, but the PCs. However, if the full rank projection is used (that is: if we use all PCs), $RV(\mathbf{X,B})$ should be equivalent to $RV(\mathbf{X',B'})$.  
+
+### Kernel approach
+
+If now we denote as $\tilde{G}_X$ the centered linear kernel matrix of **X**, and $\tilde{G}_B$ that of **B**, we can compute the coinertia as the trace of their product:
+
+$$coinertia(\mathbf{\tilde{G}_X},\mathbf{\tilde{G}_B}) = tr(\mathbf{\tilde{G}_X}\mathbf{\tilde{G}_B})$$
+If we substitute this in the RV coefficient formula:
+
+$$Alignment = \frac{tr(\mathbf{\tilde{G}_X}\mathbf{\tilde{G}_B})}{\sqrt{tr(\mathbf{\tilde{G}_X}\mathbf{\tilde{G}_B})}\sqrt{tr(\mathbf{\tilde{G}_X}\mathbf{\tilde{G}_B})}}$$
+Thus, kernel matrices give us an alternative way of computing both coinertia and the RV coefficient. And, just as explained in the [Rest of kernels] subsection, CIA can also be "kernelized". In fact, the RV coefficient between kernel matrices (not restricted to the linear kernel) is already known in some fields under the name *kernel alignment*. This measures the similarity between two datasets in the feature space of the kernel. This datasets can be centered (if we follow the idea of the typical PCA and CIA explained along this document), but also can be not. Thus, we have a more general expression:
+
+$$Alignment = \frac{tr(\mathbf{K_X}\mathbf{K_B})}{\sqrt{tr(\mathbf{K_X}\mathbf{K_X})}\sqrt{tr(\mathbf{K_B}\mathbf{K_B}})}$$
+(here **K** can denote centered as well as un-centered kernel matrices).
+
+As in the case of kernel PCA, this expression allows us to compare datasets even when they are not real-valued (categorical data, ordinal data, strings or text, etc.). Moreover, this "alignment" itself is, in fact, another kernel function: the Frobenius kernel (refer to the "Kernel-functions" vignette for more info). Thus, the matrix containing the RV coefficients/alignments between > 2 datasets can be studied and processed like any other kernel matrix. For example, if we wanted to check visually which datasets are more similar, we could do a kernel PCA plot of this alignment matrix.
+
+
+### `kerntools` implementation
+
+Right now, the only part of CIA that can be computed with `kerntools` is the RV coefficient. `simK()` returns the pairwise kernel alignment between kernel matrices:
+
+```{r}
+## Example using random datasets
+data1 <- matrix(rnorm(50),ncol=5,nrow=10)
+data2 <- matrix(rnorm(50),ncol=5,nrow=10)
+data3 <- matrix(rnorm(50),ncol=5,nrow=10)
+
+K1 <- Linear(data1)
+K2 <- Linear(data2)
+K3 <- Linear(data3)
+
+K1 <- centerK(K1)
+K2 <- centerK(K2)
+K3 <- centerK(K3)
+
+
+simK(list(data1=K1,data2=K2,data3=K3))
+```
+
+As explained before, if 1) the linear kernel is used, 2) the kernel matrix is centered / the original datasets are centered, the results of `simK()` will be equivalent to the RV coefficient as computed by other R packages. If your goal is doing a complete CIA, I recommend using `ade4::coinertia()`. But if you only need computing the similarity between some datasets (especially if they consist of different types of data), `kerntools` will work fine:
+
+```{r}
+## Example using random datasets
+data1 <- matrix(rnorm(50),ncol=5,nrow=10)
+data2 <- c("flowing","flower","cauliflower","thing","water","think","float","ink","wait","deaf")
+data3 <- matrix(sample(LETTERS[1:5],50,replace=TRUE),ncol=5,nrow=10)
+
+K1 <- Linear(data1)
+K2 <- Spectrum(data2,alphabet = letters,l = 2)
+K3 <- Dirac(data3,comp = "sum")
+
+simK(list(Real=K1,String=K2,Categorical=K3))
+```

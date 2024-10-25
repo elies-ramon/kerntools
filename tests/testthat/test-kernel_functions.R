@@ -203,7 +203,7 @@ test_that("Intersect kernel works", {
                    Ksum$feat_space[,,4],Ksum$feat_space[,,5])
   expect_equal(Ksum$K,Linear(Ksum_fs),ignore_attr=TRUE)
 
-  Kmean <- Intersect(setsdata,elements=letters,feat_space = TRUE)
+  Kmean <- Intersect(setsdata,elements=letters,comp="mean",feat_space = TRUE)
   Kmean_fs <- array(0,dim=c(10,10))
   for(i in 1:5)  Kmean_fs <- Linear(Kmean$feat_space[,,i]) + Kmean_fs
   expect_equal(Kmean$K, Kmean_fs,ignore_attr=TRUE)
@@ -225,7 +225,7 @@ test_that("Intersect kernel works", {
 test_that("Jaccard kernel works", {
 
   Ksum <- Jaccard(setsdata,elements=letters,comp="sum")
-  Kmean <- Jaccard(setsdata,elements=letters)
+  Kmean <- Jaccard(setsdata,elements=letters, comp = "mean")
   Kw1 <- Jaccard(setsdata,elements=letters,comp="weighted",coeff=rep(1,5))
   Kw <- Jaccard(setsdata,elements=letters,comp="weighted",coeff=absw)
 

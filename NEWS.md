@@ -1,3 +1,9 @@
+# kerntools 1.0.3
+
+* New vignettes explaining kernel PCA and the kernel functions implemented in 
+this package in depth
+* New example dataset ('soil') that contains bacterial counts.
+
 # kerntools 1.0.2
 
 * Fixed errors that arose during CRAN Package Check when using alternative BLAS/LAPACK implementations.

@@ -10,6 +10,15 @@
 
 Kernel functions for diverse types of data (including, but not restricted to: nonnegative and real vectors, real matrices, categorical and ordinal variables, sets, strings), plus other utilities like kernel similarity, kernel Principal Components Analysis (PCA) and features' importance for Support Vector Machines (SVMs), which expand other 'R' packages like 'kernlab'.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/elies-ramon/kerntools}
+  \item \url{https://elies-ramon.github.io/kerntools/}
+  \item Report bugs at \url{https://github.com/elies-ramon/kerntools/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Elies Ramon \email{eramon@everlyrusher.com} (\href{https://orcid.org/0000-0002-7953-8115}{ORCID}) [copyright holder]
 
