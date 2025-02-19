@@ -47,6 +47,7 @@ histK <- function(K,main="Histogram of K",vn = FALSE,...) {
 #' @param title Heatmap title (optional).
 #' @param color A vector of length 2 containing two colors. The first color will be
 #' used to represent the minimum value and the second the maximum value of the kernel matrix.
+#' @param name_leg Title of the legend.
 #' @param raster In large kernel matrices, raster = TRUE will draw quicker and
 #' better-looking heatmaps. (Defaults=FALSE).
 #'
@@ -54,13 +55,14 @@ histK <- function(K,main="Histogram of K",vn = FALSE,...) {
 #' @export
 #' @import ggplot2
 #' @importFrom reshape2 melt
+#' @importFrom methods hasArg
 #'
 #' @examples
 #' data <- matrix(rnorm(150),ncol=50,nrow=30)
 #' K <- Linear(data)
 #' heatK(K)
 
-heatK <- function(K,cos.norm=FALSE,title=NULL,color=c("red","yellow"),raster=FALSE) {
+heatK <- function(K,cos.norm=FALSE,title=NULL,color=c("red","yellow"),name_leg=NULL,raster=FALSE) {
   ## Errors
   kprecondition_helper(K)
 
@@ -74,7 +76,9 @@ heatK <- function(K,cos.norm=FALSE,title=NULL,color=c("red","yellow"),raster=FAL
   } else {
     q <- q+ geom_tile(color = "white")
   }
-    q <- q + scale_fill_gradient(low = color[1], high =color[2], limit = c(min(0,min(melted_cormat$value)),max(melted_cormat$value))) +
+  if(!hasArg(name_leg))  name_leg <- "value"
+
+    q <- q + scale_fill_gradientn(colors=color, name=name_leg, limit = c(min(0,min(melted_cormat$value)),max(melted_cormat$value))) +
     theme_minimal() + # minimal theme
     theme(axis.text.x = element_text(angle = 45, vjust = 1, size = 12, hjust = 1),
           axis.title.x = element_blank(), axis.title.y = element_blank())+  coord_fixed() +ggtitle(title)
@@ -193,7 +197,7 @@ simK <- function(Klist) {
 #' `KTA()` computes the alignment between a kernel matrix and a target variable.
 #'
 #' @param K A kernel matrix (class: "matrix").
-#' @param y The target variable. A numeric vector or a factor with two levels.
+#' @param y The target variable. A factor with two levels.
 #' @return Alignment value.
 #'
 #' @export
@@ -204,16 +208,14 @@ simK <- function(Klist) {
 #' y <- factor(iris[1:100,5])
 #' KTA(K1,y)
 
-# # De moment només funciona amb SVM per classificació. y ha de ser binària.
-# crec que per regressió hauria de servir també
 # # Tenc la sensació que sempre dóna molt baix.
 
 KTA <- function(K,y) {
-  if(methods::is(y,"factor")) {
-    if(nlevels(y)>2) stop("y should have 2 levels")
-    y2 <- 1*(y==levels(y)[1])
-    y2[y2==0] <- -1
-  }
+  y <- as.factor(y)
+  if(nlevels(y)>2) stop("y should have 2 levels")
+  y2 <- 1*(y==levels(y)[1])
+  y2[y2==0] <- -1
+
   ## Errors
   kprecondition_helper(K)
 

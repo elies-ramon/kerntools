@@ -91,14 +91,18 @@ test_that("Frobenius kernel works", {
 })
 
 
-# Kernels for count data: ruzicka, bray-curtis
+# Kernels for count data/compositional data: ruzicka, bray-curtis, clinear, aitchison
+Xcount <- matrix(c(3,2,1, 1, 1, 4, 7, 3, 2 , 5,
+                   4,1,5, 3, 4, 2, 3, 6, 1 , 2,
+                   2,5,2, 2, 2, 4, 1, 2, 6 , 1,
+                   2,1,1, 4, 3, 2, 1, 4, 4 , 5,
+                   3,4,6, 1, 2, 2, 4, 0, 2 , 1), nrow=5,byrow = TRUE)
+
+Xcount2 <-  Xcount
+Xcount2[5,8] <- 0.01
+
 
 test_that("Kernels for count data work", {
-  Xcount <- matrix(c(3,2,1, 1, 1, 4, 7, 3, 2 , 5,
-                     4,1,5, 3, 4, 2, 3, 6, 1 , 2,
-                     2,5,2, 2, 2, 4, 1, 2, 6 , 1,
-                     2,1,1, 4, 3, 2, 1, 4, 4 , 5,
-                     3,4,6, 1, 2, 2, 4, 0, 2 , 1), nrow=5,byrow = TRUE)
 
   # Computed with: 1-vegan::vegdist(X,method="jaccard",diag=TRUE,upper=TRUE)
   Ruzicka_vegan <- matrix(c(1.0000000,0.4285714,0.4358974,0.5135135,0.4594595,
@@ -117,11 +121,34 @@ test_that("Kernels for count data work", {
   expect_equal(round(BrayCurtis(Xcount),digits=4),round(BC_vegan,digits=4),ignore_attr=TRUE)
   expect_equal(round(Ruzicka(Xcount),digits=4),round(Ruzicka_vegan,digits=4),ignore_attr=TRUE)
 
+  # Computed with: coda.base::clr_c(Xcount2)
+  Xclr <- matrix(c( 0.2460962,-0.1593690,-0.8525161,-0.8525161,-0.8525161,0.5337782,1.0933940,0.2460962,-0.1593690,0.7569218,
+                    0.4105639,-0.9757305,0.6337074,0.1228818,0.4105639,-0.2825833,0.1228818,0.8160290,-0.9757305,-0.2825833,
+                    -0.1321756,0.7841151,-0.1321756,-0.1321756,-0.1321756,0.5609716,-0.8253228,-0.1321756,0.9664367,-0.8253228,
+                    -0.1321756,-0.8253228,-0.8253228,0.5609716,0.2732895,-0.1321756,-0.8253228,0.5609716,0.5609716,0.7841151,
+                    0.7848891 , 1.0725712 , 1.4780363 ,-0.3137232  ,0.3794240 , 0.3794240 , 1.0725712, -4.9188934,  0.3794240, -0.31372327),
+                 nrow=5,byrow=TRUE)
+
+  expect_equal(Linear(Xclr), cLinear(Xcount2),tolerance = 1e-5)
+  Kclin <- cLinear(Xcount,zeros = "pseudo",feat_space=TRUE)
+  expect_equal(Kclin$K, cLinear(Xcount2),tolerance = 1e-5)
+  expect_equal(Kclin$feat_space, Xclr,tolerance = 1e-5)
+
+  # Computed with: as.matrix(coda.base::dist(Xcount2,method="aitchison"))
+  aitdist <-    matrix(c(0.000000,3.021475,3.191577,2.931971,6.097981,
+                         3.021475,0.000000,3.303660,2.672600,6.427056,
+                         3.191577,3.303660,0.000000,2.726022,5.564678,
+                         2.931971,2.672600,2.726022,0.000000,6.756900,
+                         6.097981,6.427056,5.564678,6.756900,0.000000),nrow=5)
+  expect_equal(sqrt(Aitchison(Xcount2,g=NULL)) ,aitdist, tolerance = 1e-5)
+  expect_equal(Aitchison(Xcount2,g=0.1), exp(-0.1*aitdist^2), tolerance = 1e-5)
 })
 
 test_that("Kernels for count data errors", {
   X <- matrix(sample(10),nrow=1)
   expect_error(BrayCurtis(X),"X should be a matrix or data.frame with at least two rows")
+  expect_error(cLinear(Xcount,zeros = "none"),"Some instances are equal to zero")
+  expect_error(Aitchison(-Xcount2),"Data should be strictly nonnegative")
 })
 
 
@@ -353,3 +380,41 @@ test_that("Kendall's tau kernel throws errors", {
                "Option not available")
 })
 
+
+test_that("Kendall's tau kernel works", {
+
+  K1 <- Kendall(color)
+  expect_equal(nrow(K1),3)
+  expect_equal(K1[1,2],-1)
+  expect_equal(round(K1[1,3],digits = 1),0)
+  expect_equal( K1[1,3],-K1[2,3])
+
+  expect_equal( nrow(Kendall(food)),5)
+  K2 <- Kendall(food,samples.in.rows=TRUE)
+  Kmanual <- matrix(c(1.0, 0.2, 0.4, 0.2, 1.0 ,-0.4, 0.4,-0.4, 1.0), nrow=3,ncol=3)
+  expect_equal(K2,Kmanual,ignore_attr = TRUE)
+
+  X <- list(color=color,food=t(food)) #All samples in columns
+  K <- array(dim=c(3,3,2))
+  K[,,1] <- K1
+  K[,,2] <- K2
+
+  expect_equal(Kendall(X),MKC(K))
+})
+
+
+test_that("Chi-squared kernel works", {
+
+  X <-  matrix( c(0, 1, 1, 0, .2, .8, .7, .3), nrow=4,byrow=TRUE)
+  Kchi <- matrix(c(1 , 0.36787944, 0.89483932, 0.58364548,
+                 0.36787944, 1, 0.51341712, 0.83822343,
+                 0.89483932, 0.51341712, 1 , 0.7768366 ,
+                 0.58364548, 0.83822343, 0.7768366 , 1),nrow=4,ncol=4)
+  LeCam <- matrix(c( 0.0000000,1.0000000,0.3333333,0.7337994,
+                     1.0000000,0.0000000,0.8164966,0.4200840,
+                     0.3333333,0.8164966,0.0000000,0.5025189,
+                     0.7337994,0.4200840,0.5025189,0.0000000),nrow=4,ncol=4)
+  expect_equal(Chi2(X,g=0.5),Kchi,tolerance = 1e-6,ignore_attr=TRUE)
+  expect_equal(Chi2(X),LeCam,tolerance = 1e-6,ignore_attr=TRUE)
+
+})

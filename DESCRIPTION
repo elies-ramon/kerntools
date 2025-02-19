@@ -1,7 +1,7 @@
 Package: kerntools
 Type: Package
 Title: Kernel Functions and Tools for Machine Learning Applications
-Version: 1.1.0
+Version: 1.2.0
 Authors@R: person("Elies", "Ramon", email = "eramon@everlyrusher.com",
     role = c("aut","cre","cph"),  comment = c(ORCID = "0000-0002-7953-8115"))
 Description: Kernel functions for diverse types of data (including, but not

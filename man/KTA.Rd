@@ -9,7 +9,7 @@ KTA(K, y)
 \arguments{
 \item{K}{A kernel matrix (class: "matrix").}
 
-\item{y}{The target variable. A numeric vector or a factor with two levels.}
+\item{y}{The target variable. A factor with two levels.}
 }
 \value{
 Alignment value.

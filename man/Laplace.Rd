@@ -10,7 +10,7 @@ Laplace(X, g = NULL)
 \item{X}{Matrix or data.frame that contains real numbers ("integer", "float" or "double").}
 
 \item{g}{Gamma hyperparameter. If g=0 or NULL, `Laplace()` returns the Manhattan distance
-(L1 norm between two vectors).}
+(L1 norm between two vectors). (Defaults=NULL)}
 }
 \value{
 Kernel matrix (dimension: \emph{NxN}).

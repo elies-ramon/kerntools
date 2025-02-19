@@ -76,7 +76,7 @@ The Linear kernel is the dot product of two real vectors:
 
 $$Linear(\mathbf{x_i},\mathbf{x_j}) = \mathbf{x_i}^T\mathbf{x_j}$$
 
-It can take positive values, negative values, and even be zero. Obviously, it has a linear nature. Thus, if we use it in a "kernelized" machine learning method, the output will be the same that when using the non-kernelized method (for instance: linear kPCA is equivalent to standard PCA).
+It can return positive values, negative values, and even be zero. Obviously, it has a linear nature. Thus, if we use it in a "kernelized" machine learning method, the output will be the same that when using the non-kernelized method (for instance: linear kPCA is equivalent to standard PCA).
 
 The linear kernel is related to the cosine of the angle between two vectors, which is maximum when they share the same direction and 0 if they are perpendicular. Sometimes, is more easy to see the linear kernel as a "similarity score" if the cosine normalization is applied:
 
@@ -152,7 +152,7 @@ Finally, `kerntools`'s implementation currently does not compute the feature spa
 
 #### Definition
 
-The Laplacian kernel is similar to the RBF kernel. However, instead of computing the L2 norm (Euclidean distance) between two real vectors, it uses the L1 norm:
+The laplacian kernel is similar to the RBF kernel. However, instead of computing the L2 norm (Euclidean distance) between two real vectors, it uses the L1 norm:
 
 $$Laplacian(\mathbf{x_i},\mathbf{x_j}) = e^{-\gamma |\mathbf{x_i}-\mathbf{x_j}|}$$
 
@@ -223,7 +223,7 @@ The following kernels deal with counts and frequency data, be it absolute or rel
 
 Sometimes, counts or absolute frequencies are converted to relative frequencies. This data is usually called *compositional* and constitutes a specific category within abundance data. In that case, all samples (rows) sum to an arbitrary number (for instance 1, or 100). This data does not live in the positive real space $\mathbf{x} \in {\rm I\!R}_{>0}^D$ but in the simplex, which is a *D - 1* subspace of it. This is important because the variables are *not* independent, but parts of a whole. Thus, increasing the abundance of a feature within a sample decreases the abundance of the rest. 
 
-The kernels that follow are well known in some fields, like ecology, because of their relation to widespread diversity metrics: the Bray-Curtis dissimilarity and the Ruzicka distance.
+The next two kernels are well known in some fields, like ecology studies, because of their relation to widespread diversity metrics: the Bray-Curtis dissimilarity and the Ruzicka distance. The latter two (the compositional linear and Aitchison kernels) are kernels specific for compositional data.
 
 ### Bray-Curtis kernel
 
@@ -280,6 +280,86 @@ In `kerntools`, it can be computed typing:
 data <- soil$abund
 Ruzicka(data)
 ```
+
+
+### Compositional-linear kernel
+
+#### Definition
+
+We define the compositional-linear kernel as:
+
+$$compLinear(\mathbf{x_i},\mathbf{x_j}) = \sum_{d=1}^D log(\frac{x_{id}}{geo(x_i)})·log(\frac{x_{jd}}{geo(x_j)}) $$
+It is analogous to the linear kernel and it can return positive values, negative values, and even be zero. We can apply the cosine normalization, so a score of 1 implies that $\mathbf{x_i},\mathbf{x_j}$ are equal, while lower values imply a lower similarity between $\mathbf{x_i},\mathbf{x_j}$ (see [Linear kernel]).
+
+#### Feature space
+
+The feature space for the compositional-linear kernel is the centered log-ratio (clr) transformation of the original data.
+
+#### Usage
+
+Unlike the two previous kernels, doing:
+
+```{r,eval=FALSE}
+### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.
+data <- soil$abund
+cLinear(data)
+
+```
+will return an error. This is because compositional kernels require samples that are strictly positive. This is a problem, because in real-life, a lot of compositional datasets have zeroes. These zeroes can have different origins: for example, they may be structural, or they may be caused  by a signal so small that falls below an instrument's detection limit, etc. In any case, a zero-replacement strategy should be applied before computing this kernel. (Other possibilities include splitting the dataset, if we are sure that the zeroes are structural, or to sum columns, which is called "amalgamation" in Compositional Data Analysis. This is not always possible. In the case of the `soil` dataset, if we wanted to follow the latter route, we could sum all bacteria of the same species (or genus, or family), aiming for higher taxonomic ranks, but losing resolution in the process.) The two compositional kernels present in `kerntools` support a very simple built-in replacement strategy: replacing all zeroes by a pseudocount (i.e. a small value):
+
+```{r,eval=FALSE}
+cLinear(soil$abund,zeros = "pseudo")
+```
+
+(For more sophisticated approaches you may use other R packages like 'zCompositions'.)
+
+The feature space can be returned typing:
+
+```{r,eval=FALSE}
+cLinear(soil$abund,zeros = "pseudo",feat_space=TRUE)
+```
+
+And the cosine-normalization of this kernel can be done with:
+
+```{r,eval=FALSE}
+cLinear(soil$abund,zeros = "pseudo", cos.norm = TRUE)
+```
+
+If both `cos.norm` and `feat_space` are TRUE, the feature space will be scaled accordingly.
+
+
+### Aitchison kernel
+
+#### Definition
+
+The Aitchison kernel is analogous to the RBF kernel but for compositional data:
+
+$$Aitchison(\mathbf{x_i},\mathbf{x_j}) = exp(-\gamma \sum_{d=1}^D {log(\frac{x_{id}}{geo(x_i)})-log(\frac{x_{jd}}{geo(x_j)}) }^2)$$
+where $\mathbf{x_i},\mathbf{x_j}$ represent the abundances in two different samples, $geo(.)$ denotes the geometric mean, and $\gamma > 0$ is a hyperparameter that has to be tuned. This non-linear kernel derives from the Aitchison distance, which is Euclidean, and thus the previous definition results in a valid kernel. The output of this kernel ranges between 0 and 1; the higher the Aitchison kernel value, the higher the similarity between $\mathbf{x_i},\mathbf{x_j}$. The logarithm terms can be identified as the compositional clr-transformation of the original data. The relationship between this kernel and the compositional-linear kernel is the same than between the RBF and the linear kernels. 
+
+
+#### Feature space
+
+See: [RBF kernel].
+
+
+#### Usage
+
+Again, doing:
+```{r,eval=FALSE}
+### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.
+Aitchison(soil$abund,g=0.1)
+```
+will return an error, for the very same reasons stated in the "Usage" subsection of [Compositional-linear kernel]. A possible solution is replacing all zeroes by a pseudocount (i.e. a small value):
+
+```{r,eval=FALSE}
+### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.
+Aitchison(soil$abund,zeros = "pseudo", g=0.1))
+```
+
+As always, `Aitchison(...,g)` is the value of the hyperparameter gamma, which should be chosen by the user. The same heuristics of the RBF kernel may be useful for choosing a good gamma. 
+
+Finally, remember that `kerntools`'s implementation does not support computing the feature space of the Aitchison kernel.
 
 
 ## Kernels for categorical data
@@ -606,7 +686,7 @@ By default, the Kendall's $\tau$ kernel values of the two datasets are averaged.
 Right now, `Kendall()` does not return the data mapped onto the feature space.
 
 
-## Kernels for strings, sequences, or text
+## Kernels for strings, sequences, or (short) texts
 
 Strings or sequences are vectors of objects (usually represented as characters) in which repetitions are allowed and order matters. These characters are drawn from a given alphabet $A$. An example of an alphabet is:
 
@@ -673,3 +753,46 @@ Spectrum(strings,l=2,alphabet=alphabet,cos.norm = TRUE)
 (if you set `feat_space=TRUE`, the feature space returned by `Spectrum()` will be scaled accordingly).
 
 Right now, the Spectrum kernel implemented by `kerntools` is very basic and, in large datasets and/or when *L* is high, the computation may be excessively slow. In that case, there are other R packages that you may use. For instance, you may refer to `kernlab::stringdot()`, or check the `kebabs` package, which covers complex kernels for strings like the motif kernel, the mismatch kernel, the gappy pair kernel, etc.
+
+
+## Kernels for bag-of-words (BoW) or bags-of-visual-words data
+
+Given a document, we define a "bag" as the unordered collection of the words it contains. A bag-of-words model counts the occurrence of each word, disregarding word order. Thus, these datasets typically consist of nonnegative *NxD* tables, where *D* is the total number of different words present in all documents, and *N* is the number of documents. 
+
+### $\chi^2$ kernel
+
+#### Definition
+
+The $\chi^2$ kernel is defined as:
+
+$$\chi^2(x_i,x_j) = e^{-\gamma { \sum_d\frac{{(x_id-x_jd)}^2}{x_id+x_jd}}}$$
+
+This definition is akin to the RBF kernel, as the $\chi^2$ kernel is also the negative exponential of a distance. As in the former, the output ranges between 0 and 1: the higher the kernel value, the higher the similarity between $\mathbf{x_i},\mathbf{x_j}$. $\gamma>0$ is a hyperparameter that governs the "smoothness" of this kernel when adapting to data.
+
+#### Usage
+
+You need a BoW dataset. For instance, consider the following two documents:
+
+* "John likes to watch movies. Mary likes movies too."
+
+* "Mary also likes to watch football games."
+
+If we count the words present in these two documents, we obtain the following dataset: 
+
+```{r}
+words <-  c("John","likes","to","watch","movies","Mary","too","also","football","games")
+documents <- matrix(c(1,2,1,1,2,1,1,0,0,0,0,1,1,1,0,1,0,1,1,1),nrow=2,ncol=length(words),byrow=TRUE)
+colnames(documents) <- words
+rownames(documents) <- 1:2
+documents
+```
+
+Now, to compute the $\chi^2$ kernel, we can type:
+
+```{r}
+Chi2(documents,g=0.1)
+```
+
+`Chi2(...,g)` should be chosen by the user. With $\gamma=0.1$, the similarity between documents 1 and 2 is almost 0.50. If `Chi2(...,g=NULL)`, we obtain instead the LeCam distance (see [On Measures of Entropy and Information](https://threeplusone.com/pubs/on_information.pdf).
+
+Finally, `kerntools`'s does not compute the feature space of the $\chi^2$ kernel.

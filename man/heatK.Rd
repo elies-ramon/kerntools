@@ -9,6 +9,7 @@ heatK(
   cos.norm = FALSE,
   title = NULL,
   color = c("red", "yellow"),
+  name_leg = NULL,
   raster = FALSE
 )
 }
@@ -22,6 +23,8 @@ so its elements have a maximum value of 1. (Defaults: FALSE).}
 
 \item{color}{A vector of length 2 containing two colors. The first color will be
 used to represent the minimum value and the second the maximum value of the kernel matrix.}
+
+\item{name_leg}{Title of the legend.}
 
 \item{raster}{In large kernel matrices, raster = TRUE will draw quicker and
 better-looking heatmaps. (Defaults=FALSE).}

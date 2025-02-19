@@ -1,3 +1,18 @@
+# kerntools 1.2.0
+
+## Major changes
+
+* Two new kernels, 'Aitchison()' and 'cLinear()', for compositional data.
+* A new kernel, 'Chi2()', for computing the chi-squared kernel for bags-of-words.
+* New function, 'aggregate_imp()', that aggregates a table of features following a user-defined grouping criterion.
+
+## Minor improvements and bug fixes
+
+* 'plotImp()' now throws an error when the user requests more features than the actual 
+number of features present in x. Also, problems when displaying the correct xlim are fixed.
+* 'heatK()' allows the user to input a legend title. 
+* 'KTA()' now only accepts binary variables for its parameter 'y'.
+
 # kerntools 1.1.0
 
 * New vignettes explaining in depth kernel PCA and the kernel functions implemented in this package.

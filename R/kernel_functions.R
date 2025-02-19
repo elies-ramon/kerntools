@@ -9,10 +9,12 @@
 # - Real vectors: Linear, RBF, Laplacian, Polynomial [not yet], Sigmoid [not yet]
 # - Real matrices: Frobenius
 # - Counts (absolute and relative frequencies): Ruzicka, Bray-Curtis
+# - Compositional (relative frequencies): compositional Linear kernel
 # - Categorical data: Overlap/Dirac
 # - Sets: Intersect, Jaccard
 # - Ordinal data: Kendall's tau
-# ??? Chi-squared kernel? (histograms?)
+# - Strings: Spectrum kernel
+# - Bag-of-words: Chi-squared kernel
 
 
 ## Kernel functions for real numbers
@@ -59,7 +61,7 @@ Linear <- function(X,cos.norm=FALSE,coeff=NULL) {
 #'
 #' @param X Matrix or data.frame that contains real numbers ("integer", "float" or "double").
 #' @param g Gamma hyperparameter. If g=0 or NULL, `RBF()` returns the matrix of squared Euclidean
-#' distances instead of the RBF kernel matrix.
+#' distances instead of the RBF kernel matrix. (Defaults=NULL).
 #'
 #' @return Kernel matrix (dimension: \emph{NxN}).
 #'
@@ -90,7 +92,7 @@ RBF <- function(X,g=NULL) { ## g = 1/sigma^2. g = NULL retorna la distància euc
 #'
 #' @param X Matrix or data.frame that contains real numbers ("integer", "float" or "double").
 #' @param g Gamma hyperparameter. If g=0 or NULL, `Laplace()` returns the Manhattan distance
-#' (L1 norm between two vectors).
+#' (L1 norm between two vectors). (Defaults=NULL)
 #'
 #' @return Kernel matrix (dimension: \emph{NxN}).
 #'
@@ -189,6 +191,79 @@ BrayCurtis <- function(X) return(freqkerns(X, kernel="bray"))
 #' @rdname BrayCurtis
 #' @export
 Ruzicka <- function(X)  return(freqkerns(X=X, kernel="ruzicka"))
+
+
+#' Compositional kernels
+#'
+#' `cLinear()` is the compositional-linear kernel, which is useful for compositional
+#' data (relative frequencies or proportions). `Aitchison()` is akin to the RBF kernel for this
+#' type of data. Thus, the expected input for both kernels is a matrix or data.frame containing
+#' strictly non-negative or (even better) positive numbers. This input has dimension \emph{NxD}, with \emph{N}>1
+#' samples and \emph{D}>1 compositional features.
+#'
+#' @details In compositional data, samples (rows) sum to an arbitrary or irrelevant
+#' number. This is most clear when working with relative frequencies, as all samples
+#' add to 1 (or 100, or other uninformative value). Zeroes are a typical challenge
+#' when using compositional approaches. They introduce ambiguity because they can
+#' have multiple causes; a zero may signal a true absence, or a value so small that
+#' it is below the detection threshold of an instrument. A simple approach to deal
+#' with zeroes is replacing them by a pseudocount. More sophisticated approaches are
+#' reviewed elsewhere; see for instance the R package `zCompositions`.
+#'
+#' @references
+#' Ramon, E., Belanche-Muñoz, L. et al (2021). kernInt: A kernel framework for
+#' integrating supervised and unsupervised analyses in spatio-temporal metagenomic
+#' datasets. Frontiers in microbiology 12 (2021): 609048.
+#' doi: 10.3389/fmicb.2021.609048
+#'
+#' @param X Matrix or data.frame that contains the compositional data.
+#' @param zeros "none" to warrant that there are no zeroes in X, "pseudo" to replace
+#' zeroes by a pseudocount. (Defaults="none").
+#' @param g Gamma hyperparameter. If g=0 or NULL, the matrix of squared Aitchison
+#' distances is returned instead of the Aitchison kernel matrix. (Defaults=NULL).
+#' @inheritParams Linear
+#' @inheritParams Dirac
+#' @return Kernel matrix (dimension: \emph{NxN}).
+#'
+#' @export
+#' @examples
+#' data <- soil$abund
+#'
+#' ## This data is sparse and contains a lot of zeroes. We can replace them by pseudocounts:
+#' Kclin <- cLinear(data,zeros="pseudo")
+#' Kclin[1:5,1:5]
+#'
+#' ## With the feature space:
+#' Kclin <- cLinear(data,zeros="pseudo",feat_space=TRUE)
+#'
+#' ## With cosine normalization:
+#' Kcos <- cLinear(data,zeros="pseudo",cos.norm=TRUE)
+#' Kcos[1:5,1:5]
+#'
+#' ## Aitchison kernel:
+#' Kait <- Aitchison(data,g=0.0001,zeros="pseudo")
+#' Kait[1:5,1:5]
+
+
+cLinear <- function(X,cos.norm=FALSE,feat_space=FALSE,zeros="none") {
+  X <- clr(X,zeros=zeros)
+  if(feat_space) {
+    if(cos.norm) X <- cosnormX(X)
+    return(list(K=Linear(X,cos.norm=cos.norm),feat_space=X))
+
+  } else {
+    return(Linear(X,cos.norm=cos.norm))
+
+  }
+}
+
+
+#' @rdname cLinear
+#' @export
+Aitchison <- function(X,g=NULL,zeros="none") {
+  X <- clr(X,zeros=zeros)
+  return(RBF(X,g=g))
+}
 
 
 ## Kernel functions for categorical data (factors) and sets
@@ -401,6 +476,45 @@ Spectrum <- function(x, alphabet, l=1, group.ids=NULL, weights=NULL, feat_space=
 }
 
 
+
+## Kernel functions for bag-of-words
+
+#' Chi-squared kernel
+#'
+#' `Chi2()` computes the basic \eqn{\chi^2} kernel for bag-of-words (BoW) or bag-of-visual-words
+#' data. This kernel computes the similarity between two nonnegative vectors that represent
+#' the occurrence counts of words in two different documents.
+#'
+#' @references Zhang, Jianguo, et al. Local features and kernels for classification
+#' of texture and object categories: A comprehensive study. International journal of computer
+#' vision 73 (2007): 213-238. \href{https://inria.hal.science/inria-00548574/document}{Link}
+#' @param X Matrix or data.frame (dimension \emph{NxD}) that contains nonnegative numbers. Each row represents
+#' the counts of words of \emph{N} documents, while each column is a word.
+#' @param g Gamma hyperparameter. If g=0 or NULL, `Chi2()` returns the LeCam
+#' distances between the documents instead of the \eqn{\chi^2} kernel matrix.
+#' (Defaults=NULL).
+#'
+#' @return Kernel matrix (dimension: \emph{NxN}).
+#'
+#' @export
+#' @examples
+#' ## Example dataset: word counts in 4 documents
+#' documents <- matrix( c(0, 1, 3, 2, 1, 0,  1, 1, 6,4,3,1,3,5,6,2), nrow=4,byrow=TRUE)
+#' rownames(documents) <- paste0("doc",1:4)
+#' colnames(documents) <- c("animal","life","tree","ecosystem")
+#' documents
+#' Chi2(documents,g=NULL)
+
+Chi2 <- function(X,g=NULL) {
+  D <-   freqkerns(X, kernel="chi2")
+  if(is.null(g) ||g == 0 ) {
+    return(sqrt(D/2))
+  } else {
+    return(exp(-g*D))
+  }
+}
+
+
 ## Kernel functions for ordinal data (rankings)
 
 #' Kendall's tau kernel
@@ -541,12 +655,34 @@ permute_rep <- function(alphabet,l) {
 searchSubs <- Vectorize(stringi::stri_count,vectorize.args = "fixed")
 
 
+
+#' Clr-transform (Helper for compositional kernels)
+#' @keywords internal
+#' @noRd
+clr <- function(X,zeros) {
+  X <- as.matrix(X)
+
+  if(any(X<0)) stop("Data should be strictly nonnegative")
+  if(any(X==0)) {
+    if(zeros=="none") {
+      stop("Some instances are equal to zero")
+    } else if (zeros=="pseudo") {
+      X[X==0] <- min(X[X>0])/100
+    } else {
+      stop("Option not available")
+    }
+  }
+  geo <- exp(rowMeans(log(X)))
+  return(log(X/geo))
+}
+
+
 #' "core" bray-curtis function
 #' @keywords internal
 #' @noRd
 braycurtis <- function (DATA,i) {
-  I <- rowSums(abs(DATA[i[,1], ] - DATA[i[,2], ])) #Comparison matrix, with dimension: (n^2-n)/2 * d)
-  U <- rowSums(DATA[i[,1], ] + DATA[i[,2], ])
+  I <- rowSums(abs(DATA[i[,1], ,drop=FALSE] - DATA[i[,2],,drop=FALSE ])) #Comparison matrix, with dimension: (n^2-n)/2 * d)
+  U <- rowSums(DATA[i[,1], ,drop=FALSE] + DATA[i[,2], ,drop=FALSE])
   return(1-(I/U))
 }
 
@@ -555,9 +691,19 @@ braycurtis <- function (DATA,i) {
 #' @keywords internal
 #' @noRd
 ruzicka <- function (DATA,i) {
-  I <- rowSums(pmin(DATA[i[,1], ], DATA[i[,2], ]))
-  U <- rowSums(pmax(DATA[i[,1], ], DATA[i[,2], ]))
+  I <- rowSums(pmin(DATA[i[,1], ,drop=FALSE], DATA[i[,2],,drop=FALSE ]))
+  U <- rowSums(pmax(DATA[i[,1], ,drop=FALSE], DATA[i[,2],,drop=FALSE ]))
   return(I/U)
+}
+
+
+#' "core" chi-squared distance function
+#' @keywords internal
+#' @noRd
+chi2 <- function (DATA,i) {
+  I <- (DATA[i[,1], ,drop=FALSE] - DATA[i[,2], ,drop=FALSE])^2 #Comparison matrix, with dimension: (n^2-n)/2 * d)
+  U <-  DATA[i[,1], ,drop=FALSE] + DATA[i[,2], ,drop=FALSE]
+  return(rowSums(I/U))
 }
 
 
@@ -650,8 +796,10 @@ freqkerns <- function(X,kernel="ruzicka") {
 
   if(kernel =="ruzicka") {
     Composicio <- ruzicka(DATA=data,i=id)
-  } else if(kernel=="bray"){
+  } else if(kernel=="bray") {
     Composicio <- braycurtis(DATA=data,i=id)
+    } else if(kernel=="chi2") {
+      Composicio <- chi2(DATA=data,i=id)
     } else {
     stop(paste("Kernel not available"))
   }
@@ -664,7 +812,11 @@ freqkerns <- function(X,kernel="ruzicka") {
   for (i in Ncomb)  K[id[i,1],id[i,2]] <- Composicio[i] # Upper triangular matrix
   tK <- t(K)
   K <- tK + K # Upper triangular matrix to symmetric matrix
-  diag(K) <- 1
+  if(kernel=="chi2") {
+    diag(K) <- 0
+  } else {
+    diag(K) <- 1
+  }
   return(K)
 }
 

@@ -79,11 +79,13 @@ Right now, `kerntools` can deal effortlessly with the following kinds of data:
 
 - Real vectors: Linear, RBF and Laplacian kernels.
 - Real matrices: Frobenius kernel.
-- Counts or Frequencies (non-negative numbers): Bray-Curtis and Ruzicka (quantitative Jaccard) kernels.
+- Counts or frequencies (non-negative numbers): Bray-Curtis and Ruzicka (quantitative Jaccard) kernels.
+- Compositional data (relative frequencies or proportions): Compositional-Linear and Aitchison kernels.
 - Categorical data: Overlap / Dirac kernel.
 - Sets: Intersect and Jaccard kernels.
 - Ordinal data and rankings: Kendall's tau kernel.
-- Strings and Text: Spectrum kernel.
+- Strings, sequences and short texts: Spectrum kernel.
+- Bag-of-words (text documents, sometimes images): Chi-squared kernel.
 
 Several tools for visualizing and comparing kernel matrices are provided.
 

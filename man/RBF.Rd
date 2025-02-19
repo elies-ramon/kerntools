@@ -10,7 +10,7 @@ RBF(X, g = NULL)
 \item{X}{Matrix or data.frame that contains real numbers ("integer", "float" or "double").}
 
 \item{g}{Gamma hyperparameter. If g=0 or NULL, `RBF()` returns the matrix of squared Euclidean
-distances instead of the RBF kernel matrix.}
+distances instead of the RBF kernel matrix. (Defaults=NULL).}
 }
 \value{
 Kernel matrix (dimension: \emph{NxN}).
