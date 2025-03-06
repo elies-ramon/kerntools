@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Kernel functions">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -203,7 +203,7 @@ have <span class="math inline">$\mathbf{x} \in {\rm I\!R}^D$</span>.</p>
 </h4>
 <p>The Linear kernel is the dot product of two real vectors:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>i</mi><mi>n</mi><mi>e</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mi>T</mi></msup><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">Linear(\mathbf{x_i},\mathbf{x_j}) = \mathbf{x_i}^T\mathbf{x_j}</annotation></semantics></math></p>
-<p>It can take positive values, negative values, and even be zero.
+<p>It can return positive values, negative values, and even be zero.
 Obviously, it has a linear nature. Thus, if we use it in a “kernelized”
 machine learning method, the output will be the same that when using the
 non-kernelized method (for instance: linear kPCA is equivalent to
@@ -330,7 +330,7 @@ compute the feature space of the RBF kernel.</p>
 <div class="section level4">
 <h4 id="definition-2">Definition<a class="anchor" aria-label="anchor" href="#definition-2"></a>
 </h4>
-<p>The Laplacian kernel is similar to the RBF kernel. However, instead
+<p>The laplacian kernel is similar to the RBF kernel. However, instead
 of computing the L2 norm (Euclidean distance) between two real vectors,
 it uses the L1 norm:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>p</mi><mi>l</mi><mi>a</mi><mi>c</mi><mi>i</mi><mi>a</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>γ</mi><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>−</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow></mrow></msup></mrow><annotation encoding="application/x-tex">Laplacian(\mathbf{x_i},\mathbf{x_j}) = e^{-\gamma |\mathbf{x_i}-\mathbf{x_j}|}</annotation></semantics></math></p>
@@ -449,9 +449,11 @@ the simplex, which is a <em>D - 1</em> subspace of it. This is important
 because the variables are <em>not</em> independent, but parts of a
 whole. Thus, increasing the abundance of a feature within a sample
 decreases the abundance of the rest.</p>
-<p>The kernels that follow are well known in some fields, like ecology,
-because of their relation to widespread diversity metrics: the
-Bray-Curtis dissimilarity and the Ruzicka distance.</p>
+<p>The next two kernels are well known in some fields, like ecology
+studies, because of their relation to widespread diversity metrics: the
+Bray-Curtis dissimilarity and the Ruzicka distance. The latter two (the
+compositional linear and Aitchison kernels) are kernels specific for
+compositional data.</p>
 <div class="section level3">
 <h3 id="bray-curtis-kernel">Bray-Curtis kernel<a class="anchor" aria-label="anchor" href="#bray-curtis-kernel"></a>
 </h3>
@@ -522,6 +524,118 @@ disputed.</p>
 <span><span class="fu"><a href="../reference/BrayCurtis.html">Ruzicka</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
+<div class="section level3">
+<h3 id="compositional-linear-kernel">Compositional-linear kernel<a class="anchor" aria-label="anchor" href="#compositional-linear-kernel"></a>
+</h3>
+<div class="section level4">
+<h4 id="definition-6">Definition<a class="anchor" aria-label="anchor" href="#definition-6"></a>
+</h4>
+<p>We define the compositional-linear kernel as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>o</mi><mi>m</mi><mi>p</mi><mi>L</mi><mi>i</mi><mi>n</mi><mi>e</mi><mi>a</mi><mi>r</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munderover><mo>∑</mo><mrow><mi>d</mi><mo>=</mo><mn>1</mn></mrow><mi>D</mi></munderover><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mrow><mi>i</mi><mi>d</mi></mrow></msub><mrow><mi>g</mi><mi>e</mi><mi>o</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>·</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mrow><mi>j</mi><mi>d</mi></mrow></msub><mrow><mi>g</mi><mi>e</mi><mi>o</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">compLinear(\mathbf{x_i},\mathbf{x_j}) = \sum_{d=1}^D log(\frac{x_{id}}{geo(x_i)})·log(\frac{x_{jd}}{geo(x_j)}) </annotation></semantics></math>
+It is analogous to the linear kernel and it can return positive values,
+negative values, and even be zero. We can apply the cosine
+normalization, so a score of 1 implies that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x_i},\mathbf{x_j}</annotation></semantics></math>
+are equal, while lower values imply a lower similarity between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x_i},\mathbf{x_j}</annotation></semantics></math>
+(see <a href="#linear-kernel">Linear kernel</a>).</p>
+</div>
+<div class="section level4">
+<h4 id="feature-space-4">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-4"></a>
+</h4>
+<p>The feature space for the compositional-linear kernel is the centered
+log-ratio (clr) transformation of the original data.</p>
+</div>
+<div class="section level4">
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a>
+</h4>
+<p>Unlike the two previous kernels, doing:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.</span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">soil</span><span class="op">$</span><span class="va">abund</span></span>
+<span><span class="fu"><a href="../reference/cLinear.html">cLinear</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>will return an error. This is because compositional kernels require
+samples that are strictly positive. This is a problem, because in
+real-life, a lot of compositional datasets have zeroes. These zeroes can
+have different origins: for example, they may be structural, or they may
+be caused by a signal so small that falls below an instrument’s
+detection limit, etc. In any case, a zero-replacement strategy should be
+applied before computing this kernel. (Other possibilities include
+splitting the dataset, if we are sure that the zeroes are structural, or
+to sum columns, which is called “amalgamation” in Compositional Data
+Analysis. This is not always possible. In the case of the
+<code>soil</code> dataset, if we wanted to follow the latter route, we
+could sum all bacteria of the same species (or genus, or family), aiming
+for higher taxonomic ranks, but losing resolution in the process.) The
+two compositional kernels present in <code>kerntools</code> support a
+very simple built-in replacement strategy: replacing all zeroes by a
+pseudocount (i.e. a small value):</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cLinear.html">cLinear</a></span><span class="op">(</span><span class="va">soil</span><span class="op">$</span><span class="va">abund</span>,zeros <span class="op">=</span> <span class="st">"pseudo"</span><span class="op">)</span></span></code></pre></div>
+<p>(For more sophisticated approaches you may use other R packages like
+‘zCompositions’.)</p>
+<p>The feature space can be returned typing:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cLinear.html">cLinear</a></span><span class="op">(</span><span class="va">soil</span><span class="op">$</span><span class="va">abund</span>,zeros <span class="op">=</span> <span class="st">"pseudo"</span>,feat_space<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>And the cosine-normalization of this kernel can be done with:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/cLinear.html">cLinear</a></span><span class="op">(</span><span class="va">soil</span><span class="op">$</span><span class="va">abund</span>,zeros <span class="op">=</span> <span class="st">"pseudo"</span>, cos.norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>If both <code>cos.norm</code> and <code>feat_space</code> are TRUE,
+the feature space will be scaled accordingly.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="aitchison-kernel">Aitchison kernel<a class="anchor" aria-label="anchor" href="#aitchison-kernel"></a>
+</h3>
+<div class="section level4">
+<h4 id="definition-7">Definition<a class="anchor" aria-label="anchor" href="#definition-7"></a>
+</h4>
+<p>The Aitchison kernel is analogous to the RBF kernel but for
+compositional data:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>i</mi><mi>t</mi><mi>c</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>o</mi><mi>n</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>e</mi><mi>x</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo>−</mo><mi>γ</mi><munderover><mo>∑</mo><mrow><mi>d</mi><mo>=</mo><mn>1</mn></mrow><mi>D</mi></munderover><msup><mrow><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mrow><mi>i</mi><mi>d</mi></mrow></msub><mrow><mi>g</mi><mi>e</mi><mi>o</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><msub><mi>x</mi><mrow><mi>j</mi><mi>d</mi></mrow></msub><mrow><mi>g</mi><mi>e</mi><mi>o</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>2</mn></msup><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">Aitchison(\mathbf{x_i},\mathbf{x_j}) = exp(-\gamma \sum_{d=1}^D {log(\frac{x_{id}}{geo(x_i)})-log(\frac{x_{jd}}{geo(x_j)}) }^2)</annotation></semantics></math>
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x_i},\mathbf{x_j}</annotation></semantics></math>
+represent the abundances in two different samples,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mi>e</mi><mi>o</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>.</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">geo(.)</annotation></semantics></math>
+denotes the geometric mean, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\gamma &gt; 0</annotation></semantics></math>
+is a hyperparameter that has to be tuned. This non-linear kernel derives
+from the Aitchison distance, which is Euclidean, and thus the previous
+definition results in a valid kernel. The output of this kernel ranges
+between 0 and 1; the higher the Aitchison kernel value, the higher the
+similarity between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x_i},\mathbf{x_j}</annotation></semantics></math>.
+The logarithm terms can be identified as the compositional
+clr-transformation of the original data. The relationship between this
+kernel and the compositional-linear kernel is the same than between the
+RBF and the linear kernels.</p>
+</div>
+<div class="section level4">
+<h4 id="feature-space-5">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-5"></a>
+</h4>
+<p>See: <a href="#rbf-kernel">RBF kernel</a>.</p>
+</div>
+<div class="section level4">
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a>
+</h4>
+<p>Again, doing:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.</span></span>
+<span><span class="fu"><a href="../reference/cLinear.html">Aitchison</a></span><span class="op">(</span><span class="va">soil</span><span class="op">$</span><span class="va">abund</span>,g<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
+<p>will return an error, for the very same reasons stated in the “Usage”
+subsection of <a href="#compositional-linear-kernel">Compositional-linear kernel</a>. A
+possible solution is replacing all zeroes by a pseudocount (i.e. a small
+value):</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="do">### Our example dataset contains the bacterial abundance of *D* species in *N* soil samples.</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">Aitchison</span>(soil<span class="sc">$</span>abund,<span class="at">zeros =</span> <span class="st">"pseudo"</span>, <span class="at">g=</span><span class="fl">0.1</span>)<span class="er">)</span></span></code></pre></div>
+<p>As always, <code>Aitchison(...,g)</code> is the value of the
+hyperparameter gamma, which should be chosen by the user. The same
+heuristics of the RBF kernel may be useful for choosing a good
+gamma.</p>
+<p>Finally, remember that <code>kerntools</code>’s implementation does
+not support computing the feature space of the Aitchison kernel.</p>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="kernels-for-categorical-data">Kernels for categorical data<a class="anchor" aria-label="anchor" href="#kernels-for-categorical-data"></a>
@@ -538,7 +652,7 @@ kind of data).</p>
 <h3 id="dirac-kernel">Dirac kernel<a class="anchor" aria-label="anchor" href="#dirac-kernel"></a>
 </h3>
 <div class="section level4">
-<h4 id="definition-6">Definition<a class="anchor" aria-label="anchor" href="#definition-6"></a>
+<h4 id="definition-8">Definition<a class="anchor" aria-label="anchor" href="#definition-8"></a>
 </h4>
 <p>First we define the Overlap kernel over a single categorical variable
 as:</p>
@@ -566,7 +680,7 @@ this output of this kernel is a weighted average bounded between 0 and 1
 (thus, trying to cosine-normalize it is useless).</p>
 </div>
 <div class="section level4">
-<h4 id="feature-space-4">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-4"></a>
+<h4 id="feature-space-6">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-6"></a>
 </h4>
 <p>We can map our data onto the feature space of the Overlap kernel via
 one-hot-encoding. That is: the map
@@ -575,7 +689,7 @@ recodes a categorical variable (using the R nomenclature, “factor”) with
 <em>L</em> levels into <em>L</em> dummy variables (each one representing
 a given level) that can be 0 or 1. For instance, if we have a variable
 that can take three levels (“A”, “B” and “C”):</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cat_feat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>var<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>,<span class="fl">10</span>,replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">cat_feat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
 <span><span class="va">cat_feat</span></span>
@@ -591,7 +705,7 @@ that can take three levels (“A”, “B” and “C”):</p>
 <span><span class="co">#&gt; 9    B</span></span>
 <span><span class="co">#&gt; 10   A</span></span></code></pre></div>
 <p>the feature space for the Overlap kernel is:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/dummy_data.html">dummy_data</a></span><span class="op">(</span><span class="va">cat_feat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    var_A var_B var_C</span></span>
 <span><span class="co">#&gt; 1      1     0     0</span></span>
@@ -615,18 +729,18 @@ cosine-normalize the Dirac kernel, then the feature space is normalized
 to unit length.</p>
 </div>
 <div class="section level4">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a>
 </h4>
 <p>In <code>kerntools</code>, we need a <em>NxD</em> dataset of class
 “matrix” (2-d dimensional array) that contains only characters, or
 instead a dataset of class “data.frame” (with all entries = “character”,
 or columns = “factor”). <code>showdata</code> is an example dataset that
 meets this requirements. The Dirac kernel can be called doing:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Dirac.html">Dirac</a></span><span class="op">(</span><span class="va">showdata</span><span class="op">)</span></span></code></pre></div>
 <p>Moreover, if we want to compute the feature space too, we can
 type:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Dirac.html">Dirac</a></span><span class="op">(</span><span class="va">showdata</span>,feat_space <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>By default <code>Dirac(...,comp = "sum")</code>; that is, all
 coefficients
@@ -635,13 +749,13 @@ are set to 1. If we want the Dirac kernel computed as the mean of the
 Overlap kernel evaluations, we can do
 <code>Dirac(...,comp = "mean")</code>. Instead, to have the average
 weighting according to some coefficients, we can do:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">8</span>,<span class="fl">1</span><span class="op">/</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">/</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">/</span><span class="fl">4</span>,<span class="fl">1</span><span class="op">/</span><span class="fl">8</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Dirac.html">Dirac</a></span><span class="op">(</span><span class="va">showdata</span>, comp <span class="op">=</span> <span class="st">"weighted"</span>,  coeff<span class="op">=</span><span class="va">coeffs</span><span class="op">)</span></span></code></pre></div>
 <p>The feature space returned by this function will change accordingly
 to the coefficients chosen. Of course,
 <code>Dirac(...,comp = "mean")</code> is the same than doing:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">showdata</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">showdata</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Dirac.html">Dirac</a></span><span class="op">(</span><span class="va">showdata</span>, comp <span class="op">=</span> <span class="st">"weighted"</span>,  coeff<span class="op">=</span><span class="va">coeffs</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -660,7 +774,7 @@ the size of the set: that is, the number of elements it contains.</p>
 <h3 id="intersect-kernel">Intersect kernel<a class="anchor" aria-label="anchor" href="#intersect-kernel"></a>
 </h3>
 <div class="section level4">
-<h4 id="definition-7">Definition<a class="anchor" aria-label="anchor" href="#definition-7"></a>
+<h4 id="definition-9">Definition<a class="anchor" aria-label="anchor" href="#definition-9"></a>
 </h4>
 <p>Imagine that we have a dataset (size <em>N</em>) such as each sample
 is a set:
@@ -694,7 +808,7 @@ kernel range between 0 and 1, the 1 meaning that the two samples are
 equal, and 0 that they are completely different.</p>
 </div>
 <div class="section level4">
-<h4 id="feature-space-5">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-5"></a>
+<h4 id="feature-space-7">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-7"></a>
 </h4>
 <p>We can map our data onto the feature space of the Intersect kernel
 via a sort of one-hot-encoding. In this case, the map
@@ -704,7 +818,7 @@ recodes a set coming from a universe with <em>L</em> elements into
 can be 1, if a given element <em>l</em> is present in the set
 <em>S</em>, or 0 if it is absent. For example:</p>
 <p><strong>Favorite colors of 3 people:</strong></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">universe</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>,<span class="st">"green"</span>,<span class="st">"lightblue"</span>,<span class="st">"orange"</span>,<span class="st">"purple"</span>,<span class="st">"red"</span>,<span class="st">"white"</span>,<span class="st">"yellow"</span><span class="op">)</span></span>
 <span><span class="va">person1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span></span>
 <span><span class="va">person2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span></span>
@@ -719,7 +833,7 @@ can be 1, if a given element <em>l</em> is present in the set
 <span><span class="co">#&gt; $person3</span></span>
 <span><span class="co">#&gt; [1] "green"     "lightblue" "red"</span></span></code></pre></div>
 <p>The data mapped onto the feature space for this kernel is:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>,nrow<span class="op">=</span><span class="fl">3</span>,ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">universe</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">colors</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"person1"</span>,<span class="st">"person2"</span>,<span class="st">"person3"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">colors</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">universe</span></span>
@@ -735,7 +849,7 @@ can be 1, if a given element <em>l</em> is present in the set
 product between samples.</p>
 <p>If we use the Intersect-cosine, then the feature space is normalized
 accordingly to the unit vector:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cosnormX.html">cosnormX</a></span><span class="op">(</span><span class="va">colors</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              blue     green lightblue orange purple       red white    yellow</span></span>
 <span><span class="co">#&gt; person1 0.0000000 0.5773503 0.0000000      0      0 0.5773503     0 0.5773503</span></span>
@@ -747,12 +861,12 @@ each one scaled accordingly by the weights
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>d</mi></msub><annotation encoding="application/x-tex">c_d</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a>
 </h4>
 <p><code>kerntools</code> implementation requires that the set members
 (elements) are character symbols (length=1) combined into a string.
 Compare this with the last example:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">universe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>,<span class="st">"g"</span>,<span class="st">"l"</span>,<span class="st">"o"</span>,<span class="st">"p"</span>,<span class="st">"r"</span>,<span class="st">"w"</span>,<span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="va">colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="st">""</span>,ncol<span class="op">=</span><span class="fl">1</span>,nrow<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">colors</span><span class="op">)</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"person1"</span>,<span class="st">"person2"</span>,<span class="st">"person3"</span><span class="op">)</span></span>
@@ -766,11 +880,11 @@ Compare this with the last example:</p>
 <span><span class="co">#&gt; person3 "glr"</span></span></code></pre></div>
 <p>That is a <em>NxD</em> “matrix” or “data.frame” containing
 characters. Each sample is in a different row. Now, you can do:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Jaccard.html">Intersect</a></span><span class="op">(</span><span class="va">colors</span>,elements <span class="op">=</span> <span class="va">universe</span><span class="op">)</span></span></code></pre></div>
 <p>This function requires that we state the universe’s elements
 explicitly. The feature space can be returned too:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Jaccard.html">Intersect</a></span><span class="op">(</span><span class="va">colors</span>, elements <span class="op">=</span> <span class="va">universe</span>, feat_space <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>If data is multivariate
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">D&gt;1</annotation></semantics></math>
@@ -781,7 +895,7 @@ this second feature:</p>
 <p>(<em>Anna = A</em>; <em>Bernard = B</em>; <em>Cesc = C</em>;
 <em>Diana = D </em>; <em>Elsa = E </em>; <em>Fran = F</em>; <em>Gisele =
 G</em>; <em>Horaci = H</em>; <em>Iria = I</em>; <em>Jaume = J</em>)</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">universe2</span> <span class="op">&lt;-</span>  <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></span>
 <span><span class="va">person1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">9</span>,<span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">person2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">4</span>,<span class="fl">6</span>,<span class="fl">7</span><span class="op">)</span></span>
@@ -808,7 +922,7 @@ G</em>; <em>Horaci = H</em>; <em>Iria = I</em>; <em>Jaume = J</em>)</p>
 <span><span class="co">#&gt; person2 "ADFG" </span></span>
 <span><span class="co">#&gt; person3 "BCEIJ"</span></span></code></pre></div>
 <p>So the final dataset is:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">set_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>colors<span class="op">=</span><span class="va">colors</span>,friends<span class="op">=</span><span class="va">friends</span><span class="op">)</span></span>
 <span><span class="va">set_data</span></span>
 <span><span class="co">#&gt;         colors friends</span></span>
@@ -816,7 +930,7 @@ G</em>; <em>Horaci = H</em>; <em>Iria = I</em>; <em>Jaume = J</em>)</p>
 <span><span class="co">#&gt; person2     by    ADFG</span></span>
 <span><span class="co">#&gt; person3    glr   BCEIJ</span></span></code></pre></div>
 <p>And now we can compute the kernel:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Jaccard.html">Intersect</a></span><span class="op">(</span><span class="va">set_data</span>,elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span></span></code></pre></div>
 <p>(We should indicate the elements of the two universes: colors and
 friends).</p>
@@ -836,7 +950,7 @@ the result ranges between 0 and 1, and there are not implicit biases.
 and therefore gives the same importance to all features. However, if you
 want to give more importance to some features over others, you can
 choose manually the weights that you want:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">### We will make that "friends" has 3 times more importance than "colors":</span></span>
 <span><span class="va">coeffs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">4</span>,<span class="fl">3</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Jaccard.html">Intersect</a></span><span class="op">(</span><span class="va">set_data</span>, elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp <span class="op">=</span> <span class="st">"weighted"</span>,  coeff<span class="op">=</span><span class="va">coeffs</span><span class="op">)</span></span></code></pre></div>
@@ -854,7 +968,7 @@ consist in simply dividing by <em>D</em> (the set features).</p>
 <h3 id="jaccard-kernel">Jaccard kernel<a class="anchor" aria-label="anchor" href="#jaccard-kernel"></a>
 </h3>
 <div class="section level4">
-<h4 id="definition-8">Definition<a class="anchor" aria-label="anchor" href="#definition-8"></a>
+<h4 id="definition-10">Definition<a class="anchor" aria-label="anchor" href="#definition-10"></a>
 </h4>
 <p>The Jaccard index (or Jaccard kernel) of two sets is defined as:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mi>a</mi><mi>c</mi><mi>c</mi><mi>a</mi><mi>r</mi><mi>d</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>S</mi><mi>i</mi></msub><mo>,</mo><msub><mi>S</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>S</mi><mi>i</mi></msub><mo>∩</mo><msub><mi>S</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>S</mi><mi>i</mi></msub><mo>∪</mo><msub><mi>S</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">Jaccard(S_i,S_j)= \frac{|S_i \cap S_j|}{|S_i \cup S_j|} </annotation></semantics></math>
@@ -880,24 +994,24 @@ coefficients are all set to
 the values given by the Jaccard-multi kernel range between 0 and 1.</p>
 </div>
 <div class="section level4">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a>
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a>
 </h4>
 <p>The usage is pretty similar to the Intersect kernel:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Jaccard.html">Jaccard</a></span><span class="op">(</span><span class="va">set_data</span>,elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span></span></code></pre></div>
 <p>The only nuance here is that the univariate Jaccard kernel always is
 bounded between 0 and 1. There are not underlying biases and all
 features have the same weight (unless you explicitly do
 <code>Intersect(...,comp = "weighted")</code> and enter some
 coefficients). Thus, this:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cosNorm.html">cosNorm</a></span><span class="op">(</span><span class="fu"><a href="../reference/Jaccard.html">Jaccard</a></span><span class="op">(</span><span class="va">set_data</span>,elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>or this:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">set_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Jaccard.html">Jaccard</a></span><span class="op">(</span><span class="va">set_data</span>,elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp<span class="op">=</span><span class="st">"sum"</span><span class="op">)</span><span class="op">/</span><span class="va">D</span></span></code></pre></div>
 <p>Is the same than this:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Jaccard.html">Jaccard</a></span><span class="op">(</span><span class="va">set_data</span>,elements <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">universe</span>,<span class="va">universe2</span><span class="op">)</span>,comp<span class="op">=</span><span class="st">"mean"</span><span class="op">)</span></span></code></pre></div>
 <p>Also, take into account that the <code><a href="../reference/Jaccard.html">Jaccard()</a></code> function does
 not return the data mapped onto the feature space of the kernel.</p>
@@ -921,7 +1035,7 @@ concept of “ranking”, which consists in assigning the ordering labels
 kernel<a class="anchor" aria-label="anchor" href="#kendalls-tau-kernel"></a>
 </h3>
 <div class="section level4">
-<h4 id="definition-9">Definition<a class="anchor" aria-label="anchor" href="#definition-9"></a>
+<h4 id="definition-11">Definition<a class="anchor" aria-label="anchor" href="#definition-11"></a>
 </h4>
 <p>Kendall’s
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
@@ -975,7 +1089,7 @@ ranking is the reverse of the other, and 0 that the two rankings are
 completely independent.</p>
 </div>
 <div class="section level4">
-<h4 id="feature-space-6">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-6"></a>
+<h4 id="feature-space-8">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-8"></a>
 </h4>
 <p>If we call
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>r</mi><mi>i</mi></msub><annotation encoding="application/x-tex">r_i</annotation></semantics></math>
@@ -1001,14 +1115,14 @@ and each feature corresponds to a “relative order”
 between all pair of levels within a ranking.</p>
 </div>
 <div class="section level4">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a>
 </h4>
 <p>A <em>NxL</em> or <em>LxN</em> dataset is required. <em>N</em> is the
 sample size and <em>L</em> the number of values (levels) of the ordinal
 variable. This is an example that such a dataset:</p>
 <p><strong>Three people are given a list of 10 colors. They rank them
 from most (1) to least (10) favorite.</strong></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">color_list</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>,<span class="st">"blue"</span>,<span class="st">"green"</span>,<span class="st">"grey"</span>,<span class="st">"lightblue"</span>,<span class="st">"orange"</span>,<span class="st">"purple"</span>,</span>
 <span><span class="st">"red"</span>,<span class="st">"white"</span>,<span class="st">"yellow"</span><span class="op">)</span></span>
 <span><span class="va">survey1</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
@@ -1031,17 +1145,17 @@ from most (1) to least (10) favorite.</strong></p>
 <p>In this case, the ranking is already done. The Kendall’s
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
 kernel is computed like:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Kendall.html">Kendall</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span></code></pre></div>
 <p>(If we prefer samples in rows, we can do:)</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Kendall.html">Kendall</a></span><span class="op">(</span><span class="va">color</span>,samples.in.rows<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, the ranking may be not given explicitly by the user.
 Consider this other dataset:</p>
 <p><strong>The same three people are asked the number of times they ate
 5 different kinds of food during the last month</strong></p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">food</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">1</span>,<span class="fl">18</span>, <span class="fl">25</span>,<span class="fl">30</span>, <span class="fl">7</span>, <span class="fl">5</span>,<span class="fl">20</span>, <span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">7</span>,<span class="fl">20</span>, <span class="fl">20</span>, <span class="fl">3</span>,<span class="fl">22</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">3</span>,nrow<span class="op">=</span><span class="fl">5</span>,byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">food</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">food</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"spinach"</span>, <span class="st">"chicken"</span>, <span class="st">"beef"</span> , <span class="st">"salad"</span>,<span class="st">"lentils"</span><span class="op">)</span></span>
@@ -1055,11 +1169,11 @@ Consider this other dataset:</p>
 <p>In that case, the ranking is done internally before computing the
 Kendall’s
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Kendall.html">Kendall</a></span><span class="op">(</span><span class="va">food</span><span class="op">)</span></span></code></pre></div>
 <p>Furthermore, we can combine these two datasets, because the
 participants are the same:</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ordinal_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>color<span class="op">=</span><span class="va">color</span>,food<span class="op">=</span><span class="va">food</span><span class="op">)</span> <span class="co">#All samples in columns</span></span>
 <span><span class="fu"><a href="../reference/Kendall.html">Kendall</a></span><span class="op">(</span><span class="va">ordinal_data</span><span class="op">)</span></span></code></pre></div>
 <p>By default, the Kendall’s
@@ -1072,28 +1186,28 @@ onto the feature space.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="kernels-for-strings-sequences-or-text">Kernels for strings, sequences, or text<a class="anchor" aria-label="anchor" href="#kernels-for-strings-sequences-or-text"></a>
+<h2 id="kernels-for-strings-sequences-or-short-texts">Kernels for strings, sequences, or (short) texts<a class="anchor" aria-label="anchor" href="#kernels-for-strings-sequences-or-short-texts"></a>
 </h2>
 <p>Strings or sequences are vectors of objects (usually represented as
 characters) in which repetitions are allowed and order matters. These
 characters are drawn from a given alphabet
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
 An example of an alphabet is:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">LETTERS</span></span>
 <span><span class="co">#&gt;  [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S"</span></span>
 <span><span class="co">#&gt; [20] "T" "U" "V" "W" "X" "Y" "Z"</span></span></code></pre></div>
 <p>We denote the size of an alphabet as
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">|</mo><mi>A</mi><mo stretchy="true" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">|A|</annotation></semantics></math>.
 In the example above, this is:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 26</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="spectrum-kernel">Spectrum kernel<a class="anchor" aria-label="anchor" href="#spectrum-kernel"></a>
 </h3>
 <div class="section level4">
-<h4 id="feature-space-7">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-7"></a>
+<h4 id="feature-space-9">Feature space<a class="anchor" aria-label="anchor" href="#feature-space-9"></a>
 </h4>
 <p>Let
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
@@ -1117,7 +1231,7 @@ is a feature in feature space, which has dimension
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mrow><mo stretchy="true" form="prefix">|</mo><mi>A</mi><mo stretchy="true" form="postfix">|</mo></mrow><mi>L</mi></msup><annotation encoding="application/x-tex">|A|^L</annotation></semantics></math>.</p>
 </div>
 <div class="section level4">
-<h4 id="definition-10">Definition<a class="anchor" aria-label="anchor" href="#definition-10"></a>
+<h4 id="definition-12">Definition<a class="anchor" aria-label="anchor" href="#definition-12"></a>
 </h4>
 <p>The Spectrum kernel is the dot product of two strings mapped onto the
 feature space we have just defined. Alternatively, it can also be
@@ -1135,11 +1249,11 @@ A result of 0 means complete dissimilarity, 1 means complete similarity,
 and the strings’ length is not taken into account.</p>
 </div>
 <div class="section level4">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a>
 </h4>
 <p>You need a dataset containing <em>N</em> strings or text data. For
 instance:</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alphabet</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span>,<span class="st">"_"</span><span class="op">)</span></span>
 <span><span class="va">strings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello_world"</span>,<span class="st">"hello_word"</span>,<span class="st">"hola_mon"</span>,<span class="st">"kaixo_mundua"</span>,</span>
 <span><span class="st">"saluton_mondo"</span>,<span class="st">"ola_mundo"</span>, <span class="st">"bonjour_le_monde"</span><span class="op">)</span></span>
@@ -1155,13 +1269,13 @@ instance:</p>
 <span><span class="co">#&gt; [20] "t" "u" "v" "w" "x" "y" "z" "_"</span></span></code></pre></div>
 <p>Then you can compute the Spectrum kernel. For instance, we could
 consider substrings of length L = 2:</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum.html">Spectrum</a></span><span class="op">(</span><span class="va">strings</span>,l<span class="op">=</span><span class="fl">2</span>,alphabet<span class="op">=</span><span class="va">alphabet</span><span class="op">)</span></span></code></pre></div>
 <p>The feature space can be recovered doing:</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum.html">Spectrum</a></span><span class="op">(</span><span class="va">strings</span>,l<span class="op">=</span><span class="fl">2</span>,alphabet<span class="op">=</span><span class="va">alphabet</span>, feat_space <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The cosine-normalized version can be computed typing:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum.html">Spectrum</a></span><span class="op">(</span><span class="va">strings</span>,l<span class="op">=</span><span class="fl">2</span>,alphabet<span class="op">=</span><span class="va">alphabet</span>,cos.norm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>(if you set <code>feat_space=TRUE</code>, the feature space returned
 by <code><a href="../reference/Spectrum.html">Spectrum()</a></code> will be scaled accordingly).</p>
@@ -1172,6 +1286,78 @@ packages that you may use. For instance, you may refer to
 <code><a href="https://rdrr.io/pkg/kernlab/man/stringdot.html" class="external-link">kernlab::stringdot()</a></code>, or check the <code>kebabs</code>
 package, which covers complex kernels for strings like the motif kernel,
 the mismatch kernel, the gappy pair kernel, etc.</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="kernels-for-bag-of-words-bow-or-bags-of-visual-words-data">Kernels for bag-of-words (BoW) or bags-of-visual-words data<a class="anchor" aria-label="anchor" href="#kernels-for-bag-of-words-bow-or-bags-of-visual-words-data"></a>
+</h2>
+<p>Given a document, we define a “bag” as the unordered collection of
+the words it contains. A bag-of-words model counts the occurrence of
+each word, disregarding word order. Thus, these datasets typically
+consist of nonnegative <em>NxD</em> tables, where <em>D</em> is the
+total number of different words present in all documents, and <em>N</em>
+is the number of documents.</p>
+<div class="section level3">
+<h3 id="chi2-kernel">
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
+kernel<a class="anchor" aria-label="anchor" href="#chi2-kernel"></a>
+</h3>
+<div class="section level4">
+<h4 id="definition-13">Definition<a class="anchor" aria-label="anchor" href="#definition-13"></a>
+</h4>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
+kernel is defined as:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>χ</mi><mn>2</mn></msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>γ</mi><mrow><munder><mo>∑</mo><mi>d</mi></munder><mfrac><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mi>d</mi><mo>−</mo><msub><mi>x</mi><mi>j</mi></msub><mi>d</mi><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mrow><msub><mi>x</mi><mi>i</mi></msub><mi>d</mi><mo>+</mo><msub><mi>x</mi><mi>j</mi></msub><mi>d</mi></mrow></mfrac></mrow></mrow></msup></mrow><annotation encoding="application/x-tex">\chi^2(x_i,x_j) = e^{-\gamma { \sum_d\frac{{(x_id-x_jd)}^2}{x_id+x_jd}}}</annotation></semantics></math></p>
+<p>This definition is akin to the RBF kernel, as the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
+kernel is also the negative exponential of a distance. As in the former,
+the output ranges between 0 and 1: the higher the kernel value, the
+higher the similarity between
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝐱</mi><mi>𝐢</mi></msub><mo>,</mo><msub><mi>𝐱</mi><mi>𝐣</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x_i},\mathbf{x_j}</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\gamma&gt;0</annotation></semantics></math>
+is a hyperparameter that governs the “smoothness” of this kernel when
+adapting to data.</p>
+</div>
+<div class="section level4">
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a>
+</h4>
+<p>You need a BoW dataset. For instance, consider the following two
+documents:</p>
+<ul>
+<li><p>“John likes to watch movies. Mary likes movies too.”</p></li>
+<li><p>“Mary also likes to watch football games.”</p></li>
+</ul>
+<p>If we count the words present in these two documents, we obtain the
+following dataset:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">words</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"John"</span>,<span class="st">"likes"</span>,<span class="st">"to"</span>,<span class="st">"watch"</span>,<span class="st">"movies"</span>,<span class="st">"Mary"</span>,<span class="st">"too"</span>,<span class="st">"also"</span>,<span class="st">"football"</span>,<span class="st">"games"</span><span class="op">)</span></span>
+<span><span class="va">documents</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>,nrow<span class="op">=</span><span class="fl">2</span>,ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">words</span><span class="op">)</span>,byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">documents</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">words</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">documents</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span></span>
+<span><span class="va">documents</span></span>
+<span><span class="co">#&gt;   John likes to watch movies Mary too also football games</span></span>
+<span><span class="co">#&gt; 1    1     2  1     1      2    1   1    0        0     0</span></span>
+<span><span class="co">#&gt; 2    0     1  1     1      0    1   0    1        1     1</span></span></code></pre></div>
+<p>Now, to compute the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
+kernel, we can type:</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/Chi2.html">Chi2</a></span><span class="op">(</span><span class="va">documents</span>,g<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           1         2</span></span>
+<span><span class="co">#&gt; 1 1.0000000 0.4803053</span></span>
+<span><span class="co">#&gt; 2 0.4803053 1.0000000</span></span></code></pre></div>
+<p><code>Chi2(...,g)</code> should be chosen by the user. With
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>0.1</mn></mrow><annotation encoding="application/x-tex">\gamma=0.1</annotation></semantics></math>,
+the similarity between documents 1 and 2 is almost 0.50. If
+<code>Chi2(...,g=NULL)</code>, we obtain instead the LeCam distance (see
+<a href="https://threeplusone.com/pubs/on_information.pdf" class="external-link">On Measures
+of Entropy and Information</a>.</p>
+<p>Finally, <code>kerntools</code>’s does not compute the feature space
+of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>χ</mi><mn>2</mn></msup><annotation encoding="application/x-tex">\chi^2</annotation></semantics></math>
+kernel.</p>
 </div>
 </div>
 </div>

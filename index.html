@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Kernel Functions and Tools for Machine Learning Applications">
 <meta name="description" content="Kernel functions for diverse types of data (including, but not restricted to: nonnegative and real vectors, real matrices, categorical and ordinal variables, sets, strings), plus other utilities like kernel similarity, kernel Principal Components Analysis (PCA) and features importance for Support Vector Machines (SVMs), which expand other R packages like kernlab'.">
 <meta property="og:description" content="Kernel functions for diverse types of data (including, but not restricted to: nonnegative and real vectors, real matrices, categorical and ordinal variables, sets, strings), plus other utilities like kernel similarity, kernel Principal Components Analysis (PCA) and features importance for Support Vector Machines (SVMs), which expand other R packages like kernlab'.">
@@ -29,7 +29,7 @@
 
     <a class="navbar-brand me-2" href="index.html">kerntools</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,11 +132,13 @@
 <ul>
 <li>Real vectors: Linear, RBF and Laplacian kernels.</li>
 <li>Real matrices: Frobenius kernel.</li>
-<li>Counts or Frequencies (non-negative numbers): Bray-Curtis and Ruzicka (quantitative Jaccard) kernels.</li>
+<li>Counts or frequencies (non-negative numbers): Bray-Curtis and Ruzicka (quantitative Jaccard) kernels.</li>
+<li>Compositional data (relative frequencies or proportions): Compositional-Linear and Aitchison kernels.</li>
 <li>Categorical data: Overlap / Dirac kernel.</li>
 <li>Sets: Intersect and Jaccard kernels.</li>
 <li>Ordinal data and rankings: Kendall’s tau kernel.</li>
-<li>Strings and Text: Spectrum kernel.</li>
+<li>Strings, sequences and short texts: Spectrum kernel.</li>
+<li>Bag-of-words (text documents, sometimes images): Chi-squared kernel.</li>
 </ul>
 <p>Several tools for visualizing and comparing kernel matrices are provided.</p>
 <p>Regarding kernel PCA, <code>kerntools</code> allows the user to:</p>
