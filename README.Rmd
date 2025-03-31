@@ -18,8 +18,11 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of kerntools is to provide R tools for working with a family of Machine Learning methods called kernel methods. It can be used to complement other R packages like `kernlab`. Right now, `kerntools` implements several kernel functions for treating non-negative and real vectors, real matrices, categorical and ordinal variables, sets, and strings. Several tools for studying the resulting kernel matrix or to compare two kernel matrices are available. These diagnostic tools may be used to infer the kernel(s) matrix(ces) suitability in training models.  This package also provides functions for computing the feature importance of Support Vector Machines (SVMs) models, and display customizable kernel Principal Components Analysis (PCA) plots. For convenience, widespread performance measures and feature importance barplots are available for the user.
+The goal of `kerntools` is to provide R tools for working with a family of Machine Learning methods called kernel methods. It can be used to complement other R packages like `kernlab`. Right now, `kerntools` implements several kernel functions for treating non-negative and real vectors, real matrices, categorical and ordinal variables, sets, and strings. Several tools for studying the resulting kernel matrix or to compare two kernel matrices are available. These diagnostic tools may be used to infer the kernel(s) matrix(ces) suitability in training models. This package also provides functions for computing the feature importance of Support Vector Machines (SVMs) models, and display customizable kernel Principal Components Analysis (PCA) plots. For convenience, widespread performance measures and feature importance barplots are available for the user.
 
+If you want to see a real-life application of `kerntools`, you can check the following paper:
+
+* Ramon, Elies. *Unraveling HIV protease drug resistance and genetic diversity with kernel methods.* bioRxiv 2025.03.26.644092; doi: [https://doi.org/10.1101/2025.03.26.644092](https://www.biorxiv.org/content/10.1101/2025.03.26.644092v1).
 
 
 ## Installation
