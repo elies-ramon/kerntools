@@ -430,7 +430,7 @@ Intersect <- function(X, elements=LETTERS,  comp="sum", coeff=NULL,feat_space=FA
 #' feature space.
 #'
 #' @export
-#' @importFrom dplyr %>% group_by id summarise_all
+#' @importFrom dplyr %>% group_by summarise_all
 #' @importFrom stringi stri_count
 #'
 #' @examples
@@ -459,7 +459,7 @@ Spectrum <- function(x, alphabet, l=1, group.ids=NULL, weights=NULL, feat_space=
     if(length(group.ids) != length(x)) stop("Ids length should be the same than x, the string vector provided")
     group_id <- data.frame(id = as.factor(group.ids), count_table)
     colnames(group_id)[-1] <- colnames(count_table)
-    group_id <- group_id %>% group_by(id) %>% summarise_all(sum)
+    group_id <- group_id %>% group_by(.data$id) %>% summarise_all(sum)
     count_table <- as.matrix(group_id[,-1])
     # count_table <- apply(group_id,2,as.numeric)
     rownames(count_table) <- group_id$id

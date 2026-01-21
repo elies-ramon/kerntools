@@ -166,7 +166,7 @@ plotImp <- function(x,y=NULL, relative=TRUE, absolute=TRUE, nfeat=NULL,
 #' @return X, a matrix or data.frame containing the aggregated importances.
 #'
 #' @importFrom methods hasArg
-#' @importFrom dplyr %>% group_by id summarise_all
+#' @importFrom dplyr %>% group_by summarise_all
 #' @export
 #'
 #' @examples
